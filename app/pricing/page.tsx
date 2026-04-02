@@ -4,7 +4,6 @@ import { useState } from 'react'
 import Link from 'next/link'
 import { Shield, Check, X, ChevronDown, ArrowRight } from 'lucide-react'
 
-// ─── Nav (minimal) ────────────────────────────────────────────────────────────
 function Nav() {
   return (
     <nav className="bg-[#0F172A] border-b border-slate-800">
@@ -21,7 +20,6 @@ function Nav() {
   )
 }
 
-// ─── Pricing header ───────────────────────────────────────────────────────────
 const plans = [
   {
     name: 'Free',
@@ -31,6 +29,7 @@ const plans = [
     highlight: false,
     cta: 'Get Started Free',
     param: 'free',
+    badge: null,
   },
   {
     name: 'Growth',
@@ -50,32 +49,42 @@ const plans = [
     highlight: false,
     cta: 'Contact Us',
     param: 'scale',
+    badge: null,
   },
 ]
 
-// ─── Feature comparison table ─────────────────────────────────────────────────
 type CellVal = boolean | string | null
 
-interface Feature {
+interface FeatureRow {
   label: string
-  section?: string
+  isSection: false
   free: CellVal
   growth: CellVal
   scale: CellVal
 }
 
-const features: Feature[] = [
-  { section: 'Usage', label: 'Monthly scans', free: '5', growth: '50', scale: 'Unlimited' },
-  { label: 'Pages per scan', free: '1', growth: '100', scale: 'Unlimited' },
-  { label: 'Detection categories', free: '3 of 6', growth: 'All 6', scale: '6 + custom' },
-  { label: 'Regulatory mapping', free: null, growth: 'DSA, FTC, CPRA, GDPR', scale: 'All + custom' },
-  { section: 'Features', label: 'PDF reports', free: true, growth: true, scale: true },
-  { label: 'API access', free: false, growth: false, scale: true },
-  { label: 'Compliance dashboard', free: false, growth: false, scale: true },
-  { label: 'Monthly compliance report', free: false, growth: false, scale: true },
-  { label: 'Custom detection rules', free: false, growth: false, scale: true },
-  { section: 'Support', label: 'Email support', free: 'Community', growth: 'Priority', scale: 'Dedicated' },
-  { label: 'SLA', free: false, growth: false, scale: '99.9%' },
+interface SectionRow {
+  label: string
+  isSection: true
+}
+
+type Row = FeatureRow | SectionRow
+
+const rows: Row[] = [
+  { label: 'Usage', isSection: true },
+  { label: 'Monthly scans', isSection: false, free: '5', growth: '50', scale: 'Unlimited' },
+  { label: 'Pages per scan', isSection: false, free: '1', growth: '100', scale: 'Unlimited' },
+  { label: 'Detection categories', isSection: false, free: '3 of 6', growth: 'All 6', scale: '6 + custom' },
+  { label: 'Regulatory mapping', isSection: false, free: null, growth: 'DSA, FTC, CPRA, GDPR', scale: 'All + custom' },
+  { label: 'Features', isSection: true },
+  { label: 'PDF reports', isSection: false, free: true, growth: true, scale: true },
+  { label: 'API access', isSection: false, free: false, growth: false, scale: true },
+  { label: 'Compliance dashboard', isSection: false, free: false, growth: false, scale: true },
+  { label: 'Monthly compliance report', isSection: false, free: false, growth: false, scale: true },
+  { label: 'Custom detection rules', isSection: false, free: false, growth: false, scale: true },
+  { label: 'Support', isSection: true },
+  { label: 'Email support', isSection: false, free: 'Community', growth: 'Priority', scale: 'Dedicated' },
+  { label: 'SLA', isSection: false, free: false, growth: false, scale: '99.9%' },
 ]
 
 function CellValue({ val }: { val: CellVal }) {
@@ -84,10 +93,9 @@ function CellValue({ val }: { val: CellVal }) {
   return <span className="text-slate-600 text-sm">{val}</span>
 }
 
-// ─── Pricing FAQ ──────────────────────────────────────────────────────────────
 const pricingFaqs = [
-  { q: 'What counts as a scan?', a: 'One scan = one crawl of a URL. We follow internal links up to your plan\'s page limit and return a single scored report.' },
-  { q: 'Can I upgrade or downgrade at any time?', a: 'Yes. Plan changes take effect at the start of your next billing period. Downgrading won\'t delete your historical reports.' },
+  { q: 'What counts as a scan?', a: "One scan = one crawl of a URL. We follow internal links up to your plan's page limit and return a single scored report." },
+  { q: 'Can I upgrade or downgrade at any time?', a: "Yes. Plan changes take effect at the start of your next billing period. Downgrading won't delete your historical reports." },
   { q: 'Is there an annual discount?', a: 'Yes — annual plans receive a 20% discount. Contact us for a quote.' },
   { q: 'What payment methods do you accept?', a: 'All major credit cards via Stripe. Enterprise invoicing available on Scale and above.' },
   { q: 'Do unused scans roll over?', a: 'No. Scan quotas reset at the start of each billing period.' },
@@ -158,28 +166,28 @@ export default function PricingPage() {
                   <tr className="bg-slate-50">
                     <th className="text-left px-6 py-4 text-slate-500 font-semibold text-xs uppercase tracking-wider">Feature</th>
                     {plans.map((p) => (
-                      <th key={p.name} className={`px-6 py-4 text-center text-xs uppercase tracking-wider font-semibold ${
-                        p.highlight ? 'text-teal-600' : 'text-slate-500'
-                      }`}>{p.name}</th>
+                      <th key={p.name} className={`px-6 py-4 text-center text-xs uppercase tracking-wider font-semibold ${p.highlight ? 'text-teal-600' : 'text-slate-500'}`}>{p.name}</th>
                     ))}
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-slate-50">
-                  {features.map((feat, i) => (
-                    <>
-                      {feat.section && (
-                        <tr key={`section-${feat.section}`} className="bg-slate-50/80">
-                          <td colSpan={4} className="px-6 py-2.5 text-xs font-bold text-slate-400 uppercase tracking-wider">{feat.section}</td>
+                  {rows.map((row, i) => {
+                    if (row.isSection) {
+                      return (
+                        <tr key={`section-${i}`} className="bg-slate-50/80">
+                          <td colSpan={4} className="px-6 py-2.5 text-xs font-bold text-slate-400 uppercase tracking-wider">{row.label}</td>
                         </tr>
-                      )}
-                      <tr key={i} className={i % 2 === 0 ? 'bg-white' : 'bg-slate-50/30'}>
-                        <td className="px-6 py-4 text-slate-700 font-medium">{feat.label}</td>
-                        <td className="px-6 py-4 text-center"><CellValue val={feat.free} /></td>
-                        <td className="px-6 py-4 text-center"><CellValue val={feat.growth} /></td>
-                        <td className="px-6 py-4 text-center"><CellValue val={feat.scale} /></td>
+                      )
+                    }
+                    return (
+                      <tr key={`row-${i}`} className={i % 2 === 0 ? 'bg-white' : 'bg-slate-50/30'}>
+                        <td className="px-6 py-4 text-slate-700 font-medium">{row.label}</td>
+                        <td className="px-6 py-4 text-center"><CellValue val={row.free} /></td>
+                        <td className="px-6 py-4 text-center"><CellValue val={row.growth} /></td>
+                        <td className="px-6 py-4 text-center"><CellValue val={row.scale} /></td>
                       </tr>
-                    </>
-                  ))}
+                    )
+                  })}
                 </tbody>
               </table>
             </div>
@@ -191,8 +199,7 @@ export default function PricingPage() {
           <div className="max-w-3xl mx-auto px-6 text-center">
             <h2 className="text-2xl font-bold text-white mb-3">Need something custom?</h2>
             <p className="text-slate-400 text-base mb-8">
-              Enterprise pricing, on-premise deployment, custom detection rules, and white-label reporting
-              are all available. Let&apos;s talk.
+              Enterprise pricing, on-premise deployment, custom detection rules, and white-label reporting are all available.
             </p>
             <a
               href="mailto:steve@thirdmirror.com.au"
@@ -227,7 +234,6 @@ export default function PricingPage() {
         </section>
       </main>
 
-      {/* Footer */}
       <footer className="bg-[#0F172A] border-t border-slate-800 py-10">
         <div className="max-w-6xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-4 text-slate-500 text-sm">
           <div className="flex items-center gap-2">
