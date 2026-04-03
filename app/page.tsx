@@ -34,6 +34,9 @@ function Nav() {
           <a href="#how-it-works" className="text-slate-300 hover:text-white text-sm font-medium transition-colors">How It Works</a>
           <a href="#who-its-for" className="text-slate-300 hover:text-white text-sm font-medium transition-colors">Who It&apos;s For</a>
           <Link href="/pricing" className="text-slate-300 hover:text-white text-sm font-medium transition-colors">Pricing</Link>
+          <Link href="/consumer" className="text-slate-400 hover:text-slate-200 text-sm font-medium transition-colors border-l border-slate-700 pl-8">
+            For consumers →
+          </Link>
         </div>
         <Link
           href="/waitlist"
@@ -72,64 +75,34 @@ function Hero() {
           <span className="text-teal-400">before regulators do.</span>
         </h1>
 
-        <p className="text-lg md:text-xl text-slate-400 max-w-2xl mx-auto leading-relaxed mb-14">
-          ClearSign scans any website for manipulative design and maps findings to the regulations that matter.
-          Two tools — one for teams, one for everyone.
+        <p className="text-lg md:text-xl text-slate-400 max-w-2xl mx-auto leading-relaxed mb-10">
+          ClearSign scans your product for manipulative design patterns and maps every finding to the regulations that matter — DSA, FTC, CPRA, GDPR. Automated. Continuous. Defensible.
         </p>
 
-        {/* Primary CTAs — the two live products */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-2xl mx-auto mb-10">
-          {/* B2B card */}
+        {/* Primary CTAs */}
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-6">
           <a
             href={PRODUCT_B2B}
             target="_blank"
             rel="noopener noreferrer"
-            className="group relative flex flex-col items-start text-left gap-4 bg-teal-600 hover:bg-teal-500 px-7 py-6 rounded-2xl transition-all duration-200 hover:shadow-xl hover:shadow-teal-900/40 hover:-translate-y-0.5"
+            className="inline-flex items-center gap-2 bg-teal-600 hover:bg-teal-500 text-white font-bold px-8 py-4 rounded-xl text-base transition-colors shadow-lg shadow-teal-900/30"
           >
-            <div className="flex items-center justify-between w-full">
-              <span className="text-teal-100/70 text-xs font-semibold uppercase tracking-widest">For product teams</span>
-              <ExternalLink className="w-4 h-4 text-teal-100/50 group-hover:text-teal-100 transition-colors" />
-            </div>
-            <div>
-              <div className="text-white text-xl font-bold mb-1">B2B Scanner</div>
-              <div className="text-teal-100/75 text-sm leading-snug">Scan your product, get a compliance report, and a clear path to fix issues.</div>
-            </div>
-            <div className="flex items-center gap-1.5 text-white font-semibold text-sm mt-auto">
-              Launch scanner <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5" />
-            </div>
+            Launch the scanner <ArrowRight className="w-5 h-5" />
           </a>
-
-          {/* Consumer card */}
-          <a
-            href={PRODUCT_CONSUMER}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="group relative flex flex-col items-start text-left gap-4 bg-slate-800/60 hover:bg-slate-800 border border-slate-700 hover:border-slate-500 px-7 py-6 rounded-2xl transition-all duration-200 hover:shadow-xl hover:shadow-slate-900/60 hover:-translate-y-0.5"
-          >
-            <div className="flex items-center justify-between w-full">
-              <span className="text-slate-400 text-xs font-semibold uppercase tracking-widest">For everyone</span>
-              <ExternalLink className="w-4 h-4 text-slate-600 group-hover:text-slate-400 transition-colors" />
-            </div>
-            <div>
-              <div className="text-white text-xl font-bold mb-1">Consumer Scanner</div>
-              <div className="text-slate-400 text-sm leading-snug">Check if a website you use is playing fair with your data and attention.</div>
-            </div>
-            <div className="flex items-center gap-1.5 text-slate-300 group-hover:text-white font-semibold text-sm mt-auto transition-colors">
-              Launch scanner <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5" />
-            </div>
-          </a>
-        </div>
-
-        {/* Secondary action */}
-        <div className="mb-16">
           <Link
             href="/waitlist"
-            className="inline-flex items-center gap-1.5 text-slate-400 hover:text-teal-400 text-sm font-medium transition-colors"
+            className="inline-flex items-center gap-1.5 border border-slate-600 hover:border-slate-400 text-slate-300 hover:text-white font-semibold px-8 py-4 rounded-xl text-base transition-colors"
           >
-            Want early access for your organisation?
-            <ArrowRight className="w-3.5 h-3.5" />
+            Request early access
           </Link>
         </div>
+
+        <p className="text-slate-600 text-sm mb-16">
+          Not a business?{' '}
+          <Link href="/consumer" className="text-slate-400 hover:text-teal-400 transition-colors">
+            Try the free consumer tool →
+          </Link>
+        </p>
 
         {/* Trust strip */}
         <div className="flex flex-wrap items-center justify-center gap-x-3 gap-y-1 text-slate-600 text-xs">
@@ -652,6 +625,7 @@ function Footer() {
         <div className="flex items-center gap-6 text-slate-500 text-sm">
           <Link href="/pricing" className="hover:text-white transition-colors">Pricing</Link>
           <Link href="/waitlist" className="hover:text-white transition-colors">Waitlist</Link>
+          <Link href="/consumer" className="hover:text-white transition-colors">For consumers</Link>
           <a href="mailto:steve@thirdmirror.com.au" className="hover:text-white transition-colors">Contact</a>
           <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">
             <Linkedin className="w-4 h-4" />
