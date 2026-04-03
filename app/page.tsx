@@ -453,17 +453,26 @@ function PricingPreview() {
       price: '$0',
       period: '/month',
       highlight: false,
-      features: ['5 scans per month', '1 URL per scan', 'Basic detection (3 pattern types)', 'PDF report'],
+      features: ['5 scans per month', '1 page per scan', '3 of 7 detection categories', 'PDF report'],
       cta: 'Get Started Free',
       param: 'free',
+    },
+    {
+      name: 'Pro',
+      price: '$19',
+      period: '/month',
+      highlight: true,
+      badge: 'Most Popular',
+      features: ['Unlimited scans', '10 pages per scan', 'All 7 detection categories', 'PDF + shareable report links'],
+      cta: 'Get Pro',
+      param: 'pro',
     },
     {
       name: 'Growth',
       price: '$149',
       period: '/month',
-      highlight: true,
-      badge: 'Most Popular',
-      features: ['50 scans per month', 'Full site crawl (up to 100 pages)', 'All 6 detection categories', 'Regulatory mapping (DSA, FTC, CPRA, GDPR)', 'Priority email support'],
+      highlight: false,
+      features: ['50 deep scans per month', 'Full site crawl (up to 100 pages)', 'All 7 detection categories', 'Regulatory mapping (DSA, FTC, CPRA, GDPR)', 'Priority email support'],
       cta: 'Request Early Access',
       param: 'growth',
     },
@@ -480,20 +489,20 @@ function PricingPreview() {
 
   return (
     <section className="bg-white py-24">
-      <div className="max-w-5xl mx-auto px-6">
+      <div className="max-w-6xl mx-auto px-6">
         <div className="text-center mb-14">
           <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">Simple, transparent pricing.</h2>
           <p className="text-slate-500 text-lg">
             <Link href="/pricing" className="text-teal-600 hover:underline">See full feature comparison →</Link>
           </p>
         </div>
-        <div className="grid md:grid-cols-3 gap-6 items-stretch">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 items-stretch">
           {plans.map((plan) => (
             <div
               key={plan.name}
-              className={`rounded-xl p-7 flex flex-col border ${
+              className={`rounded-xl p-7 flex flex-col border relative ${
                 plan.highlight
-                  ? 'bg-[#0F172A] border-teal-600 shadow-xl shadow-teal-900/20 relative'
+                  ? 'bg-[#0F172A] border-teal-600 shadow-xl shadow-teal-900/20'
                   : 'bg-white border-slate-200 shadow-sm'
               }`}
             >
@@ -677,3 +686,4 @@ export default function HomePage() {
     </>
   )
 }
+
