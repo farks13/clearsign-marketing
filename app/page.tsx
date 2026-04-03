@@ -76,7 +76,7 @@ function Hero() {
         </h1>
 
         <p className="text-lg md:text-xl text-slate-400 max-w-2xl mx-auto leading-relaxed mb-10">
-          ClearSign scans your product for manipulative design patterns and maps every finding to the regulations that matter — DSA, FTC, CPRA, GDPR. Automated. Continuous. Defensible.
+          ClearSign scans your product for manipulative design patterns and maps every finding to the regulations that matter — ACL, Privacy Act, GDPR, DSA, FTC. Automated. Continuous. Defensible.
         </p>
 
         {/* Primary CTAs */}
@@ -107,7 +107,7 @@ function Hero() {
         {/* Trust strip */}
         <div className="flex flex-wrap items-center justify-center gap-x-3 gap-y-1 text-slate-600 text-xs">
           <span className="text-slate-500 mr-1">Covers:</span>
-          {['DSA', 'FTC Act', 'CPRA', 'India CCPA', 'GDPR'].map((reg, i, arr) => (
+          {['ACL', 'Unfair Trading Practices Bill', 'GDPR', 'DSA', 'FTC Act'].map((reg, i, arr) => (
             <span key={reg} className="flex items-center gap-3">
               <span className="text-slate-500">{reg}</span>
               {i < arr.length - 1 && <span className="text-slate-700">·</span>}
@@ -124,7 +124,7 @@ function Problem() {
   const cards = [
     {
       title: 'The Regulatory Wave',
-      body: 'The EU Digital Services Act, FTC Section 5, and California\'s CPRA all target dark patterns — with fines reaching hundreds of millions. India now mandates annual audits.',
+      body: "Australia's Unfair Trading Practices Bill will explicitly ban dark patterns from July 2027. The ACCC has already named dark patterns a 2026–27 enforcement priority. Globally, the EU DSA, US FTC, and GDPR are all active — with fines reaching hundreds of millions.",
     },
     {
       title: 'Manual Audits Don\'t Scale',
@@ -173,7 +173,7 @@ function HowItWorks() {
     {
       num: '02',
       title: 'Score',
-      body: 'Every finding is classified by type (confirm-shaming, hidden costs, forced continuity, and more), severity level, and the specific regulations it may violate — DSA, FTC, CPRA, GDPR.',
+      body: 'Every finding is classified by type (confirm-shaming, hidden costs, forced continuity, and more), severity level, and the specific regulations it may violate — ACL, Privacy Act, GDPR, DSA, FTC.',
       side: 'right',
     },
     {
@@ -232,7 +232,7 @@ function WhoItsFor() {
       headline: 'Audit with confidence.',
       bullets: [
         'Systematic, repeatable dark pattern audits — not ad-hoc reviews',
-        'Regulatory mapping to DSA, FTC, CPRA, GDPR, and India CCPA',
+        'Regulatory mapping to ACL, Privacy Act, GDPR, DSA, and FTC',
         'Exportable compliance reports for regulators and board',
         'Audit trail that proves you checked — before anyone asked',
       ],
@@ -340,11 +340,12 @@ function WhatWeDetect() {
 // ─── Regulatory Context ───────────────────────────────────────────────────────
 function RegulatoryContext() {
   const regs = [
+    { name: 'Australian Consumer Law', region: 'Australia', status: 'Active', provision: 'Misleading and deceptive conduct — ACCC actively targeting dark patterns' },
+    { name: 'Unfair Trading Practices Bill', region: 'Australia', status: 'Exposure draft', provision: 'Explicit dark pattern prohibition; subscription traps; drip pricing. Enforceable July 2027' },
+    { name: 'Privacy Act 1988', region: 'Australia', status: 'Active', provision: 'Consent obtained via dark patterns may be invalid' },
     { name: 'Digital Services Act', region: 'EU', status: 'Active', provision: 'Explicitly prohibits dark patterns on platforms' },
-    { name: 'FTC Section 5', region: 'US', status: 'Active enforcement', provision: 'Dark patterns as deceptive trade practices' },
-    { name: 'CPRA / CPPA', region: 'California', status: 'Advisory issued', provision: 'Symmetrical choice required; $7,500/violation' },
-    { name: 'CCPA Guidelines', region: 'India', status: 'Active', provision: '13 specified dark patterns; annual audits mandated' },
     { name: 'GDPR', region: 'EU', status: 'Active', provision: 'Consent obtained via dark patterns is invalid' },
+    { name: 'FTC Section 5', region: 'US', status: 'Active enforcement', provision: 'Dark patterns as deceptive trade practices' },
   ]
 
   return (
@@ -366,19 +367,25 @@ function RegulatoryContext() {
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-50">
-              {regs.map((r, i) => (
-                <tr key={r.name} className={i % 2 === 0 ? 'bg-white' : 'bg-slate-50/50'}>
-                  <td className="px-6 py-4 font-semibold text-slate-900">{r.name}</td>
-                  <td className="px-6 py-4 text-slate-500">{r.region}</td>
-                  <td className="px-6 py-4">
-                    <span className="inline-flex items-center gap-1.5 text-xs font-medium text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-full">
-                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
-                      {r.status}
-                    </span>
-                  </td>
-                  <td className="px-6 py-4 text-slate-500">{r.provision}</td>
-                </tr>
-              ))}
+              {regs.map((r, i) => {
+                const isExposureDraft = r.status === 'Exposure draft'
+                const badgeText = isExposureDraft ? 'text-amber-700' : 'text-emerald-700'
+                const badgeBg = isExposureDraft ? 'bg-amber-50' : 'bg-emerald-50'
+                const dotColor = isExposureDraft ? 'bg-amber-500' : 'bg-emerald-500'
+                return (
+                  <tr key={r.name} className={i % 2 === 0 ? 'bg-white' : 'bg-slate-50/50'}>
+                    <td className="px-6 py-4 font-semibold text-slate-900">{r.name}</td>
+                    <td className="px-6 py-4 text-slate-500">{r.region}</td>
+                    <td className="px-6 py-4">
+                      <span className={`inline-flex items-center gap-1.5 text-xs font-medium ${badgeText} ${badgeBg} px-2.5 py-1 rounded-full`}>
+                        <span className={`w-1.5 h-1.5 rounded-full ${dotColor}`} />
+                        {r.status}
+                      </span>
+                    </td>
+                    <td className="px-6 py-4 text-slate-500">{r.provision}</td>
+                  </tr>
+                )
+              })}
             </tbody>
           </table>
         </div>
@@ -445,7 +452,7 @@ function PricingPreview() {
       price: '$149',
       period: '/month',
       highlight: false,
-      features: ['50 deep scans per month', 'Full site crawl (up to 100 pages)', 'All 7 detection categories', 'Regulatory mapping (DSA, FTC, CPRA, GDPR)', 'Priority email support'],
+      features: ['50 deep scans per month', 'Full site crawl (up to 100 pages)', 'All 7 detection categories', 'Regulatory mapping (ACL, GDPR, DSA, FTC)', 'Priority email support'],
       cta: 'Request Early Access',
       param: 'growth',
     },
@@ -527,7 +534,7 @@ const faqs = [
   },
   {
     q: 'Which regulations does ClearSign cover?',
-    a: "Currently: EU Digital Services Act, FTC Section 5 (US), CPRA/CPPA (California), GDPR, and India's CCPA Guidelines. We're adding support for the UK Online Safety Act and EU Digital Fairness Act as they develop.",
+    a: "Currently: Australian Consumer Law, Privacy Act 1988, EU Digital Services Act, GDPR, and FTC Section 5 (US). We're tracking the Australian Unfair Trading Practices Bill (expected July 2027) and will add coverage as it's finalised.",
   },
   {
     q: 'How is this different from an accessibility scanner?',

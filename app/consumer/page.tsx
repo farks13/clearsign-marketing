@@ -274,6 +274,54 @@ function Pricing() {
   )
 }
 
+// ─── Your Rights ──────────────────────────────────────────────────────────────
+const YOUR_RIGHTS = [
+  {
+    flag: '🇦🇺',
+    name: 'Australian Consumer Law',
+    desc: 'Prohibits misleading and deceptive conduct. The ACCC is actively pursuing dark pattern cases — including against Microsoft and JustAnswer in 2025.',
+  },
+  {
+    flag: '🇦🇺',
+    name: 'Unfair Trading Practices Bill',
+    desc: 'Coming July 2027 — will explicitly ban dark patterns, subscription traps, and hidden fees in Australia.',
+  },
+  {
+    flag: '🇪🇺',
+    name: 'EU Digital Services Act',
+    desc: 'Bans dark patterns across all EU-facing digital services. Enforceable now.',
+  },
+]
+
+function YourRights() {
+  return (
+    <section className="bg-[#0F172A] py-20">
+      <div className="max-w-5xl mx-auto px-6">
+        <div className="text-center mb-12">
+          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+            These tactics are increasingly illegal
+          </h2>
+          <p className="text-slate-400 text-lg max-w-xl mx-auto">
+            Regulators are catching up. Here&apos;s what the law says where it matters most.
+          </p>
+        </div>
+        <div className="grid md:grid-cols-3 gap-5">
+          {YOUR_RIGHTS.map((r) => (
+            <div key={r.name} className="bg-slate-800/50 border border-slate-700 rounded-2xl p-6">
+              <div className="text-3xl mb-3">{r.flag}</div>
+              <h3 className="text-white font-semibold text-base mb-2">{r.name}</h3>
+              <p className="text-slate-400 text-sm leading-relaxed">{r.desc}</p>
+            </div>
+          ))}
+        </div>
+        <p className="text-center text-slate-500 text-xs mt-8">
+          Built in Australia 🇦🇺 · ClearSign by Third Mirror PTY LTD
+        </p>
+      </div>
+    </section>
+  )
+}
+
 // ─── Score explainer ──────────────────────────────────────────────────────────
 const SCORES = [
   { range: '80–100', label: 'Looks good', color: '#0D7377', bg: '#E8F5F5', emoji: '🟢', desc: "We didn't find anything suspicious. Still worth reading the fine print before you commit." },
@@ -316,7 +364,7 @@ const FAQS = [
   { q: 'Can it catch everything?', a: "ClearSign is very good at detecting patterns visible in the page code. It can't always catch issues that only appear after logging in, adding items to a cart, or entering checkout — but it covers the majority of common tactics consumers encounter." },
   { q: "What if the site scores well?", a: "A high score means we didn't find anything on the pages we scanned. It's a strong signal, but not a guarantee — some manipulation only appears deeper in the purchase flow. Always read cancellation terms before entering payment details." },
   { q: 'Can I share my report?', a: 'Yes. Every report has a unique link you can share — useful if a friend or family member is considering signing up to a service you want them to check first.' },
-  { q: "I run a business — can I use ClearSign to check my own product?", a: "Yes. ClearSign has a professional version for product teams, compliance officers, and legal teams. It includes regulatory mapping (DSA, FTC, CPRA, GDPR), PDF reports, API access, and more." },
+  { q: "I run a business — can I use ClearSign to check my own product?", a: "Yes. ClearSign has a professional version for product teams, compliance officers, and legal teams. It includes regulatory mapping (ACL, Privacy Act, GDPR, DSA, FTC), PDF reports, API access, and more." },
 ]
 
 function FAQ() {
@@ -398,6 +446,7 @@ export default function ConsumerPage() {
         <DarkPatterns />
         <HowItWorks />
         <Pricing />
+        <YourRights />
         <ScoreExplainer />
         <FAQ />
         <CTA />

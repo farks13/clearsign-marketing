@@ -86,7 +86,7 @@ const rows: Row[] = [
   { label: 'Monthly scans',        isSection: false, free: '5',       pro: 'Unlimited', growth: '50 deep scans', scale: 'Unlimited' },
   { label: 'Pages per scan',       isSection: false, free: '1',       pro: '10',        growth: '100',           scale: 'Unlimited' },
   { label: 'Detection categories', isSection: false, free: '3 of 7',  pro: 'All 7',     growth: 'All 7',         scale: '7 + custom' },
-  { label: 'Regulatory mapping',   isSection: false, free: null,      pro: null,        growth: 'DSA, FTC, CPRA, GDPR', scale: 'All + custom' },
+  { label: 'Regulatory mapping',   isSection: false, free: null,      pro: null,        growth: 'ACL, Privacy Act, GDPR, DSA, FTC', scale: 'All + custom' },
   { label: 'Features', isSection: true },
   { label: 'PDF reports',              isSection: false, free: false, pro: true,  growth: true,  scale: true },
   { label: 'Shareable report links',   isSection: false, free: false, pro: true,  growth: true,  scale: true },
