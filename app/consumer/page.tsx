@@ -167,6 +167,101 @@ function HowItWorks() {
   )
 }
 
+// ─── Pricing ──────────────────────────────────────────────────────────────────
+const CONSUMER_PLANS = [
+  {
+    name: 'Free',
+    price: '$0',
+    period: '/month',
+    highlight: false,
+    desc: 'For anyone who wants to check before they commit.',
+    features: [
+      '5 scans per month',
+      '1 page per scan',
+      '3 of 7 detection categories',
+      'Trust score + plain-English report',
+    ],
+    cta: 'Start scanning free',
+    href: CONSUMER_SCANNER,
+  },
+  {
+    name: 'Pro',
+    price: '$19',
+    period: '/month',
+    highlight: true,
+    badge: 'Most Popular',
+    desc: 'For anyone who shops or subscribes online regularly.',
+    features: [
+      'Unlimited scans',
+      '10 pages per scan',
+      'All 7 detection categories',
+      'Shareable report links',
+      'PDF export',
+    ],
+    cta: 'Get Pro',
+    href: '/waitlist?plan=pro',
+  },
+]
+
+function Pricing() {
+  return (
+    <section className="bg-white py-20">
+      <div className="max-w-4xl mx-auto px-6">
+        <div className="text-center mb-12">
+          <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">Simple pricing</h2>
+          <p className="text-slate-500 text-lg">Free to start. Upgrade if you want more scans and deeper coverage.</p>
+        </div>
+        <div className="grid md:grid-cols-2 gap-6 max-w-2xl mx-auto">
+          {CONSUMER_PLANS.map((plan) => (
+            <div
+              key={plan.name}
+              className={`rounded-2xl p-7 flex flex-col border relative ${
+                plan.highlight
+                  ? 'bg-[#0F172A] border-teal-600 shadow-xl shadow-teal-900/20'
+                  : 'bg-white border-slate-200 shadow-sm'
+              }`}
+            >
+              {plan.badge && (
+                <div className="absolute -top-3 left-1/2 -translate-x-1/2">
+                  <span className="bg-teal-600 text-white text-xs font-semibold px-3 py-1 rounded-full whitespace-nowrap">{plan.badge}</span>
+                </div>
+              )}
+              <div className={`text-sm font-semibold mb-2 ${plan.highlight ? 'text-teal-400' : 'text-slate-500'}`}>{plan.name}</div>
+              <div className={`text-4xl font-black mb-1 ${plan.highlight ? 'text-white' : 'text-slate-900'}`}>
+                {plan.price}
+                <span className="text-base font-normal text-slate-400">{plan.period}</span>
+              </div>
+              <p className={`text-sm mt-2 mb-5 ${plan.highlight ? 'text-slate-400' : 'text-slate-500'}`}>{plan.desc}</p>
+              <ul className="space-y-2.5 flex-1 mb-6">
+                {plan.features.map((f) => (
+                  <li key={f} className={`flex items-start gap-2.5 text-sm ${plan.highlight ? 'text-slate-300' : 'text-slate-500'}`}>
+                    <span className="text-teal-400 mt-0.5 flex-shrink-0">✓</span>
+                    {f}
+                  </li>
+                ))}
+              </ul>
+              <a
+                href={plan.href}
+                className={`block text-center font-semibold px-5 py-2.5 rounded-lg transition-colors text-sm ${
+                  plan.highlight
+                    ? 'bg-teal-600 hover:bg-teal-500 text-white'
+                    : 'border border-slate-300 hover:border-teal-600 hover:text-teal-600 text-slate-700'
+                }`}
+              >
+                {plan.cta}
+              </a>
+            </div>
+          ))}
+        </div>
+        <p className="text-center text-slate-400 text-sm mt-8">
+          Need team or compliance features?{' '}
+          <Link href="/pricing" className="text-teal-600 hover:underline">See all plans →</Link>
+        </p>
+      </div>
+    </section>
+  )
+}
+
 // ─── Score explainer ──────────────────────────────────────────────────────────
 const SCORES = [
   { range: '80–100', label: 'Looks good', color: '#0D7377', bg: '#E8F5F5', emoji: '🟢', desc: "We didn't find anything suspicious. Still worth reading the fine print before you commit." },
@@ -289,6 +384,7 @@ export default function ConsumerPage() {
         <Hero />
         <DarkPatterns />
         <HowItWorks />
+        <Pricing />
         <ScoreExplainer />
         <FAQ />
         <CTA />
