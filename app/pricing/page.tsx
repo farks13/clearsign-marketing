@@ -25,21 +25,31 @@ const plans = [
     name: 'Free',
     price: '$0',
     period: '/month',
-    desc: 'For individuals and small teams exploring ClearSign.',
+    desc: 'Check any website. See what we find.',
     highlight: false,
     cta: 'Get Started Free',
     param: 'free',
     badge: null,
   },
   {
+    name: 'Pro',
+    price: '$19',
+    period: '/month',
+    badge: 'Most Popular',
+    desc: 'For individuals and small teams who need deeper analysis.',
+    highlight: true,
+    cta: 'Get Pro',
+    param: 'pro',
+  },
+  {
     name: 'Growth',
     price: '$149',
     period: '/month',
-    badge: 'Most Popular',
     desc: 'For product and compliance teams who need full coverage.',
-    highlight: true,
+    highlight: false,
     cta: 'Request Early Access',
     param: 'growth',
+    badge: null,
   },
   {
     name: 'Scale',
@@ -59,6 +69,7 @@ interface FeatureRow {
   label: string
   isSection: false
   free: CellVal
+  pro: CellVal
   growth: CellVal
   scale: CellVal
 }
@@ -72,19 +83,20 @@ type Row = FeatureRow | SectionRow
 
 const rows: Row[] = [
   { label: 'Usage', isSection: true },
-  { label: 'Monthly scans', isSection: false, free: '5', growth: '50', scale: 'Unlimited' },
-  { label: 'Pages per scan', isSection: false, free: '1', growth: '100', scale: 'Unlimited' },
-  { label: 'Detection categories', isSection: false, free: '3 of 6', growth: 'All 6', scale: '6 + custom' },
-  { label: 'Regulatory mapping', isSection: false, free: null, growth: 'DSA, FTC, CPRA, GDPR', scale: 'All + custom' },
+  { label: 'Monthly scans',        isSection: false, free: '5',       pro: 'Unlimited', growth: '50 deep scans', scale: 'Unlimited' },
+  { label: 'Pages per scan',       isSection: false, free: '1',       pro: '10',        growth: '100',           scale: 'Unlimited' },
+  { label: 'Detection categories', isSection: false, free: '3 of 7',  pro: 'All 7',     growth: 'All 7',         scale: '7 + custom' },
+  { label: 'Regulatory mapping',   isSection: false, free: null,      pro: null,        growth: 'DSA, FTC, CPRA, GDPR', scale: 'All + custom' },
   { label: 'Features', isSection: true },
-  { label: 'PDF reports', isSection: false, free: true, growth: true, scale: true },
-  { label: 'API access', isSection: false, free: false, growth: false, scale: true },
-  { label: 'Compliance dashboard', isSection: false, free: false, growth: false, scale: true },
-  { label: 'Monthly compliance report', isSection: false, free: false, growth: false, scale: true },
-  { label: 'Custom detection rules', isSection: false, free: false, growth: false, scale: true },
+  { label: 'PDF reports',              isSection: false, free: false, pro: true,  growth: true,  scale: true },
+  { label: 'Shareable report links',   isSection: false, free: false, pro: true,  growth: true,  scale: true },
+  { label: 'API access',               isSection: false, free: false, pro: false, growth: false, scale: true },
+  { label: 'Compliance dashboard',     isSection: false, free: false, pro: false, growth: false, scale: true },
+  { label: 'Monthly compliance report',isSection: false, free: false, pro: false, growth: false, scale: true },
+  { label: 'Custom detection rules',   isSection: false, free: false, pro: false, growth: false, scale: true },
   { label: 'Support', isSection: true },
-  { label: 'Email support', isSection: false, free: 'Community', growth: 'Priority', scale: 'Dedicated' },
-  { label: 'SLA', isSection: false, free: false, growth: false, scale: '99.9%' },
+  { label: 'Email support', isSection: false, free: 'Community', pro: 'Standard', growth: 'Priority', scale: 'Dedicated' },
+  { label: 'SLA',          isSection: false, free: false,       pro: false,      growth: false,      scale: '99.9%' },
 ]
 
 function CellValue({ val }: { val: CellVal }) {
@@ -118,8 +130,8 @@ export default function PricingPage() {
 
         {/* Plan cards */}
         <section className="bg-slate-50 py-16">
-          <div className="max-w-5xl mx-auto px-6">
-            <div className="grid md:grid-cols-3 gap-6 items-stretch">
+          <div className="max-w-6xl mx-auto px-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 items-stretch">
               {plans.map((plan) => (
                 <div
                   key={plan.name}
@@ -131,7 +143,7 @@ export default function PricingPage() {
                 >
                   {plan.badge && (
                     <div className="absolute -top-3 left-1/2 -translate-x-1/2">
-                      <span className="bg-teal-600 text-white text-xs font-semibold px-3 py-1 rounded-full">{plan.badge}</span>
+                      <span className="bg-teal-600 text-white text-xs font-semibold px-3 py-1 rounded-full whitespace-nowrap">{plan.badge}</span>
                     </div>
                   )}
                   <div className={`text-sm font-semibold mb-2 ${plan.highlight ? 'text-teal-400' : 'text-slate-500'}`}>{plan.name}</div>
@@ -158,7 +170,7 @@ export default function PricingPage() {
 
         {/* Feature comparison table */}
         <section className="bg-white py-16">
-          <div className="max-w-5xl mx-auto px-6">
+          <div className="max-w-6xl mx-auto px-6">
             <h2 className="text-2xl font-bold text-slate-900 mb-8 text-center">Full feature comparison</h2>
             <div className="overflow-x-auto rounded-xl border border-slate-100 shadow-sm">
               <table className="w-full text-sm">
@@ -175,7 +187,7 @@ export default function PricingPage() {
                     if (row.isSection) {
                       return (
                         <tr key={`section-${i}`} className="bg-slate-50/80">
-                          <td colSpan={4} className="px-6 py-2.5 text-xs font-bold text-slate-400 uppercase tracking-wider">{row.label}</td>
+                          <td colSpan={5} className="px-6 py-2.5 text-xs font-bold text-slate-400 uppercase tracking-wider">{row.label}</td>
                         </tr>
                       )
                     }
@@ -183,6 +195,7 @@ export default function PricingPage() {
                       <tr key={`row-${i}`} className={i % 2 === 0 ? 'bg-white' : 'bg-slate-50/30'}>
                         <td className="px-6 py-4 text-slate-700 font-medium">{row.label}</td>
                         <td className="px-6 py-4 text-center"><CellValue val={row.free} /></td>
+                        <td className="px-6 py-4 text-center"><CellValue val={row.pro} /></td>
                         <td className="px-6 py-4 text-center"><CellValue val={row.growth} /></td>
                         <td className="px-6 py-4 text-center"><CellValue val={row.scale} /></td>
                       </tr>
