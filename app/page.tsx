@@ -59,71 +59,87 @@ function Hero() {
         }}
       />
       {/* Teal glow */}
-      <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[400px] bg-teal-500/10 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[500px] bg-teal-500/8 rounded-full blur-3xl pointer-events-none" />
 
-      <div className="relative max-w-6xl mx-auto px-6 py-32 text-center">
+      <div className="relative max-w-5xl mx-auto px-6 py-32 text-center">
         <div className="inline-flex items-center gap-2 bg-teal-900/40 border border-teal-700/50 text-teal-300 text-xs font-medium px-3 py-1.5 rounded-full mb-8">
-          <span className="w-1.5 h-1.5 bg-teal-400 rounded-full" />
-          Private beta — limited access
+          <span className="w-1.5 h-1.5 bg-teal-400 rounded-full animate-pulse" />
+          Private beta — live now
         </div>
 
-        <h1 className="text-5xl md:text-6xl font-bold text-white leading-tight tracking-tight mb-6">
+        <h1 className="text-5xl md:text-7xl font-bold text-white leading-tight tracking-tight mb-6">
           Find dark patterns<br />
           <span className="text-teal-400">before regulators do.</span>
         </h1>
 
-        <p className="text-lg md:text-xl text-slate-300 max-w-2xl mx-auto leading-relaxed mb-10">
-          ClearSign scans your product for manipulative design, maps findings to the regulations that matter,
-          and gives your team a clear path to fix them.{' '}
-          <span className="text-white font-medium">Automated. Continuous. Defensible.</span>
+        <p className="text-lg md:text-xl text-slate-400 max-w-2xl mx-auto leading-relaxed mb-14">
+          ClearSign scans any website for manipulative design and maps findings to the regulations that matter.
+          Two tools — one for teams, one for everyone.
         </p>
 
-        <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
-          <Link
-            href="/waitlist"
-            className="inline-flex items-center justify-center gap-2 bg-teal-600 hover:bg-teal-500 text-white font-semibold px-7 py-3.5 rounded-lg transition-colors text-base"
-          >
-            Request Early Access <ArrowRight className="w-4 h-4" />
-          </Link>
-          <a
-            href="#how-it-works"
-            className="inline-flex items-center justify-center gap-2 border border-slate-600 hover:border-slate-400 text-slate-300 hover:text-white font-semibold px-7 py-3.5 rounded-lg transition-colors text-base"
-          >
-            See How It Works
-          </a>
-        </div>
-
-        {/* Trust strip */}
-        <div className="flex flex-wrap items-center justify-center gap-2 text-slate-500 text-xs">
-          {['DSA', 'FTC Act', 'CPRA', 'India CCPA', 'GDPR'].map((reg, i, arr) => (
-            <span key={reg} className="flex items-center gap-2">
-              <span className="text-slate-400">{reg}</span>
-              {i < arr.length - 1 && <span>·</span>}
-            </span>
-          ))}
-        </div>
-
-        {/* Try the product links */}
-        <div className="mt-10 flex flex-col sm:flex-row gap-3 justify-center">
+        {/* Primary CTAs — the two live products */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-2xl mx-auto mb-10">
+          {/* B2B card */}
           <a
             href={PRODUCT_B2B}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 text-slate-400 hover:text-teal-400 text-sm transition-colors"
+            className="group relative flex flex-col items-start text-left gap-4 bg-teal-600 hover:bg-teal-500 px-7 py-6 rounded-2xl transition-all duration-200 hover:shadow-xl hover:shadow-teal-900/40 hover:-translate-y-0.5"
           >
-            <ExternalLink className="w-3.5 h-3.5" />
-            Try the B2B scanner
+            <div className="flex items-center justify-between w-full">
+              <span className="text-teal-100/70 text-xs font-semibold uppercase tracking-widest">For product teams</span>
+              <ExternalLink className="w-4 h-4 text-teal-100/50 group-hover:text-teal-100 transition-colors" />
+            </div>
+            <div>
+              <div className="text-white text-xl font-bold mb-1">B2B Scanner</div>
+              <div className="text-teal-100/75 text-sm leading-snug">Scan your product, get a compliance report, and a clear path to fix issues.</div>
+            </div>
+            <div className="flex items-center gap-1.5 text-white font-semibold text-sm mt-auto">
+              Launch scanner <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5" />
+            </div>
           </a>
-          <span className="hidden sm:block text-slate-700">|</span>
+
+          {/* Consumer card */}
           <a
             href={PRODUCT_CONSUMER}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 text-slate-400 hover:text-teal-400 text-sm transition-colors"
+            className="group relative flex flex-col items-start text-left gap-4 bg-slate-800/60 hover:bg-slate-800 border border-slate-700 hover:border-slate-500 px-7 py-6 rounded-2xl transition-all duration-200 hover:shadow-xl hover:shadow-slate-900/60 hover:-translate-y-0.5"
           >
-            <ExternalLink className="w-3.5 h-3.5" />
-            Try the consumer scanner
+            <div className="flex items-center justify-between w-full">
+              <span className="text-slate-400 text-xs font-semibold uppercase tracking-widest">For everyone</span>
+              <ExternalLink className="w-4 h-4 text-slate-600 group-hover:text-slate-400 transition-colors" />
+            </div>
+            <div>
+              <div className="text-white text-xl font-bold mb-1">Consumer Scanner</div>
+              <div className="text-slate-400 text-sm leading-snug">Check if a website you use is playing fair with your data and attention.</div>
+            </div>
+            <div className="flex items-center gap-1.5 text-slate-300 group-hover:text-white font-semibold text-sm mt-auto transition-colors">
+              Launch scanner <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5" />
+            </div>
           </a>
+        </div>
+
+        {/* Secondary action */}
+        <div className="mb-16">
+          <Link
+            href="/waitlist"
+            className="inline-flex items-center gap-1.5 text-slate-400 hover:text-teal-400 text-sm font-medium transition-colors"
+          >
+            Want early access for your organisation?
+            <ArrowRight className="w-3.5 h-3.5" />
+          </Link>
+        </div>
+
+        {/* Trust strip */}
+        <div className="flex flex-wrap items-center justify-center gap-x-3 gap-y-1 text-slate-600 text-xs">
+          <span className="text-slate-500 mr-1">Covers:</span>
+          {['DSA', 'FTC Act', 'CPRA', 'India CCPA', 'GDPR'].map((reg, i, arr) => (
+            <span key={reg} className="flex items-center gap-3">
+              <span className="text-slate-500">{reg}</span>
+              {i < arr.length - 1 && <span className="text-slate-700">·</span>}
+            </span>
+          ))}
         </div>
       </div>
     </section>
