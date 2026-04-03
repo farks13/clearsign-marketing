@@ -42,7 +42,7 @@ function Hero() {
           <span className="w-2 h-2 rounded-full bg-teal-400 animate-pulse" />
           <span className="text-teal-300 text-xs font-semibold tracking-wide uppercase">Free website scanner</span>
         </div>
-        <h1 className="text-4xl md:text-6xl font-black text-white leading-tight mb-6 tracking-tight">
+        <h1 className="text-5xl md:text-7xl font-bold text-white leading-tight mb-6 tracking-tight">
           Signed up. Got charged.<br />
           <span className="text-teal-400">Can&apos;t cancel?</span>
         </h1>
