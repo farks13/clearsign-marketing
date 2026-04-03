@@ -387,25 +387,57 @@ function WhoItsFor() {
         </div>
 
         <div className="rounded-3xl p-10 transition-all" style={glass}>
-          <p className="text-xs font-semibold uppercase tracking-widest mb-3" style={{ color: 'rgba(94,234,212,0.55)', letterSpacing: '0.12em' }}>{p.tab}</p>
-          <h3 style={{ color: 'white', fontWeight: 700, fontSize: 'clamp(22px, 3vw, 30px)', letterSpacing: '-0.025em', marginBottom: '14px', lineHeight: 1.2 }}>{p.headline}</h3>
-          <p style={{ color: 'rgba(255,255,255,0.47)', fontSize: '16px', lineHeight: 1.7, marginBottom: '24px', maxWidth: '560px' }}>{p.body}</p>
-          <ul className="space-y-2.5">
-            {p.bullets.map(b => (
-              <li key={b} className="flex items-center gap-3" style={{ color: 'rgba(255,255,255,0.62)', fontSize: '14px' }}>
-                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                  <path d="M3 8l3.5 3.5L13 4.5" stroke="rgba(45,212,191,0.75)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
-                {b}
-              </li>
-            ))}
-          </ul>
-          <a href={`/waitlist`}
-            style={{ display: 'inline-flex', alignItems: 'center', marginTop: '28px', color: 'rgba(94,234,212,0.7)', fontSize: '13px', fontWeight: 600, textDecoration: 'none', letterSpacing: '-0.005em' }}
-            onMouseEnter={e => (e.currentTarget.style.color = 'rgba(94,234,212,1)')}
-            onMouseLeave={e => (e.currentTarget.style.color = 'rgba(94,234,212,0.7)')}>
-            Join the waitlist →
-          </a>
+          <div className="flex flex-col md:flex-row gap-10 items-center">
+            {/* Left: text content */}
+            <div className="flex-1 min-w-0">
+              <p className="text-xs font-semibold uppercase tracking-widest mb-3" style={{ color: 'rgba(94,234,212,0.55)', letterSpacing: '0.12em' }}>{p.tab}</p>
+              <h3 style={{ color: 'white', fontWeight: 700, fontSize: 'clamp(22px, 3vw, 30px)', letterSpacing: '-0.025em', marginBottom: '14px', lineHeight: 1.2 }}>{p.headline}</h3>
+              <p style={{ color: 'rgba(255,255,255,0.47)', fontSize: '16px', lineHeight: 1.7, marginBottom: '24px' }}>{p.body}</p>
+              <ul className="space-y-2.5">
+                {p.bullets.map(b => (
+                  <li key={b} className="flex items-center gap-3" style={{ color: 'rgba(255,255,255,0.62)', fontSize: '14px' }}>
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                      <path d="M3 8l3.5 3.5L13 4.5" stroke="rgba(45,212,191,0.75)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                    </svg>
+                    {b}
+                  </li>
+                ))}
+              </ul>
+              <a href={`/waitlist`}
+                style={{ display: 'inline-flex', alignItems: 'center', marginTop: '28px', color: 'rgba(94,234,212,0.7)', fontSize: '13px', fontWeight: 600, textDecoration: 'none', letterSpacing: '-0.005em' }}
+                onMouseEnter={e => (e.currentTarget.style.color = 'rgba(94,234,212,1)')}
+                onMouseLeave={e => (e.currentTarget.style.color = 'rgba(94,234,212,0.7)')}>
+                Join the waitlist →
+              </a>
+            </div>
+
+            {/* Right: product screen placeholder */}
+            <div className="flex-shrink-0 w-full md:w-72 lg:w-80 rounded-2xl overflow-hidden flex flex-col" style={{
+              border: '1px solid rgba(255,255,255,0.08)',
+              background: '#0a0f1e',
+              minHeight: '260px',
+            }}>
+              {/* Mini browser bar */}
+              <div className="flex items-center gap-2 px-4 py-2.5 flex-shrink-0" style={{ background: 'rgba(255,255,255,0.03)', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
+                <div className="flex gap-1.5">
+                  {[0,1,2].map(d => <div key={d} className="w-2.5 h-2.5 rounded-full" style={{ background: 'rgba(255,255,255,0.1)' }} />)}
+                </div>
+                <div className="mx-auto rounded px-3 py-0.5 text-xs" style={{ background: 'rgba(255,255,255,0.05)', color: 'rgba(255,255,255,0.2)' }}>
+                  clearsign — report
+                </div>
+              </div>
+              {/* Screen content area */}
+              <div className="flex-1 flex items-center justify-center p-6">
+                <div className="text-center">
+                  <div className="w-12 h-12 rounded-xl flex items-center justify-center mx-auto mb-3" style={{ background: 'rgba(13,148,136,0.1)', border: '1px solid rgba(13,148,136,0.2)' }}>
+                    <span style={{ fontSize: '20px' }}>📊</span>
+                  </div>
+                  <p style={{ color: 'rgba(255,255,255,0.18)', fontSize: '12px', fontWeight: 500 }}>Report screen</p>
+                  <p style={{ color: 'rgba(255,255,255,0.1)', fontSize: '11px', marginTop: '3px' }}>Product screenshot · coming soon</p>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </section>
