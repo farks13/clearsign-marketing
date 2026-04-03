@@ -141,6 +141,48 @@ function Hero() {
           ))}
         </div>
       </div>
+
+      {/* Hero product mockup */}
+      <div className="relative max-w-5xl mx-auto px-6 pb-0" style={{ marginTop: '-20px' }}>
+        {/* Glow behind the screen */}
+        <div className="absolute inset-x-0 top-0 h-40 pointer-events-none" style={{
+          background: 'radial-gradient(ellipse 60% 100% at 50% 0%, rgba(13,148,136,0.18) 0%, transparent 80%)',
+        }} />
+        {/* Browser chrome frame */}
+        <div className="relative rounded-2xl overflow-hidden" style={{
+          border: '1px solid rgba(255,255,255,0.1)',
+          boxShadow: '0 40px 80px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.05)',
+          background: '#0d1117',
+        }}>
+          {/* Browser bar */}
+          <div className="flex items-center gap-2 px-4 py-3" style={{ background: 'rgba(255,255,255,0.04)', borderBottom: '1px solid rgba(255,255,255,0.07)' }}>
+            <div className="flex gap-1.5">
+              <div className="w-3 h-3 rounded-full" style={{ background: 'rgba(255,255,255,0.12)' }} />
+              <div className="w-3 h-3 rounded-full" style={{ background: 'rgba(255,255,255,0.12)' }} />
+              <div className="w-3 h-3 rounded-full" style={{ background: 'rgba(255,255,255,0.12)' }} />
+            </div>
+            <div className="flex-1 mx-4 rounded-md px-3 py-1 text-xs" style={{ background: 'rgba(255,255,255,0.06)', color: 'rgba(255,255,255,0.3)', maxWidth: '340px', margin: '0 auto' }}>
+              clearsign-ashy.vercel.app
+            </div>
+          </div>
+          {/* Screen placeholder */}
+          <div className="flex items-center justify-center" style={{ height: '420px', background: 'linear-gradient(180deg, #0d1117 0%, #070b14 100%)' }}>
+            <div className="text-center">
+              <div className="w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-4" style={{ background: 'rgba(13,148,136,0.15)', border: '1px solid rgba(13,148,136,0.25)' }}>
+                <svg width="28" height="28" viewBox="0 0 14 14" fill="none">
+                  <path d="M7 1L13 4V10L7 13L1 10V4L7 1Z" stroke="rgba(45,212,191,0.7)" strokeWidth="1.2" fill="none" strokeLinejoin="round"/>
+                </svg>
+              </div>
+              <p style={{ color: 'rgba(255,255,255,0.2)', fontSize: '13px', fontWeight: 500 }}>Product screenshot</p>
+              <p style={{ color: 'rgba(255,255,255,0.1)', fontSize: '12px', marginTop: '4px' }}>B2B scanner · coming soon</p>
+            </div>
+          </div>
+        </div>
+        {/* Fade to next section */}
+        <div className="absolute inset-x-0 bottom-0 h-32 pointer-events-none" style={{
+          background: 'linear-gradient(to bottom, transparent, #05061b)',
+        }} />
+      </div>
     </section>
   )
 }
@@ -214,32 +256,52 @@ function HowItWorks() {
           </h2>
         </div>
 
-        <div className="relative">
-          {/* Vertical connector line */}
-          <div className="absolute left-[39px] top-10 bottom-10 w-px hidden md:block"
-            style={{ background: 'linear-gradient(to bottom, transparent, rgba(13,148,136,0.3) 20%, rgba(13,148,136,0.3) 80%, transparent)' }} />
-
-          <div className="space-y-6">
-            {steps.map((s, i) => (
-              <div key={s.num} className="flex gap-8 items-start">
-                {/* Step indicator */}
-                <div className="flex-shrink-0 w-20 flex flex-col items-center gap-2">
-                  <div className="w-10 h-10 rounded-full flex items-center justify-center text-xs font-bold relative z-10"
+        <div className="space-y-6">
+          {steps.map((s, i) => (
+            <div key={s.num} className={`flex flex-col gap-5 items-stretch ${i % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'}`}>
+              {/* Text side */}
+              <div className="flex-1 rounded-2xl p-8 flex flex-col justify-center" style={glass}>
+                <div className="flex items-center gap-3 mb-5">
+                  <div className="w-9 h-9 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0"
                     style={{ background: 'rgba(13,148,136,0.15)', border: '1px solid rgba(13,148,136,0.35)', color: 'rgba(94,234,212,0.9)', letterSpacing: '0.05em' }}>
                     {s.num}
                   </div>
-                  <span style={{ color: 'rgba(255,255,255,0.3)', fontSize: '11px', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase' }}>{s.label}</span>
+                  <span style={{ color: 'rgba(255,255,255,0.3)', fontSize: '11px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase' }}>{s.label}</span>
                 </div>
+                <h3 style={{ color: 'white', fontWeight: 600, fontSize: '22px', letterSpacing: '-0.025em', marginBottom: '12px', lineHeight: 1.2 }}>{s.title}</h3>
+                <p style={{ color: 'rgba(255,255,255,0.45)', fontSize: '15px', lineHeight: 1.75 }}>{s.body}</p>
+              </div>
 
-                {/* Card */}
-                <div className="flex-1 rounded-2xl p-7 mb-0"
-                  style={{ ...glass, marginBottom: i < steps.length-1 ? '0' : '0' }}>
-                  <h3 style={{ color: 'white', fontWeight: 600, fontSize: '18px', letterSpacing: '-0.02em', marginBottom: '10px' }}>{s.title}</h3>
-                  <p style={{ color: 'rgba(255,255,255,0.45)', fontSize: '15px', lineHeight: 1.7 }}>{s.body}</p>
+              {/* Screen placeholder */}
+              <div className="flex-1 rounded-2xl overflow-hidden flex flex-col" style={{
+                border: '1px solid rgba(255,255,255,0.08)',
+                background: '#0a0f1e',
+                minHeight: '240px',
+              }}>
+                {/* Mini browser bar */}
+                <div className="flex items-center gap-2 px-4 py-2.5 flex-shrink-0" style={{ background: 'rgba(255,255,255,0.03)', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
+                  <div className="flex gap-1.5">
+                    {[0,1,2].map(d => <div key={d} className="w-2.5 h-2.5 rounded-full" style={{ background: 'rgba(255,255,255,0.1)' }} />)}
+                  </div>
+                  <div className="mx-auto rounded px-3 py-0.5 text-xs" style={{ background: 'rgba(255,255,255,0.05)', color: 'rgba(255,255,255,0.2)' }}>
+                    {s.label === 'Scan' ? 'clearsign — scanner' : s.label === 'Score' ? 'clearsign — report' : 'clearsign — findings'}
+                  </div>
+                </div>
+                {/* Screen content area */}
+                <div className="flex-1 flex items-center justify-center p-6">
+                  <div className="text-center">
+                    <div className="w-12 h-12 rounded-xl flex items-center justify-center mx-auto mb-3" style={{ background: 'rgba(13,148,136,0.1)', border: '1px solid rgba(13,148,136,0.2)' }}>
+                      <span style={{ fontSize: '20px' }}>
+                        {s.label === 'Scan' ? '🔍' : s.label === 'Score' ? '📊' : '🔧'}
+                      </span>
+                    </div>
+                    <p style={{ color: 'rgba(255,255,255,0.18)', fontSize: '12px', fontWeight: 500 }}>{s.label} screen</p>
+                    <p style={{ color: 'rgba(255,255,255,0.1)', fontSize: '11px', marginTop: '3px' }}>Product screenshot · coming soon</p>
+                  </div>
                 </div>
               </div>
-            ))}
-          </div>
+            </div>
+          ))}
         </div>
 
         <div className="text-center mt-14">
