@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { Shield, ChevronDown, ArrowRight } from 'lucide-react'
 
@@ -10,24 +10,36 @@ const B2B_PAGE = 'https://clearsign-marketing.vercel.app/'
 
 // ─── Nav ──────────────────────────────────────────────────────────────────────
 function Nav() {
+  const [scrolled, setScrolled] = useState(false)
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 20)
+    window.addEventListener('scroll', onScroll)
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
+
   return (
-    <nav className="bg-[#0F172A] border-b border-slate-800">
+    <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+      scrolled ? 'bg-[#0F172A]/95 backdrop-blur shadow-lg' : 'bg-transparent'
+    }`}>
       <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
-        <Link href="/" className="flex items-center gap-2">
+        <Link href="/consumer" className="flex items-center gap-2">
           <Shield className="w-6 h-6 text-teal-400" />
           <span className="text-white font-semibold text-lg tracking-tight">ClearSign</span>
         </Link>
-        <div className="flex items-center gap-6">
-          <a href={B2B_PAGE} className="hidden md:block text-slate-400 hover:text-white text-sm transition-colors">
+        <div className="hidden md:flex items-center gap-8">
+          <a href="#how-it-works" className="text-slate-300 hover:text-white text-sm font-medium transition-colors">How It Works</a>
+          <a href="#what-we-check" className="text-slate-300 hover:text-white text-sm font-medium transition-colors">What We Check</a>
+          <a href="#pricing" className="text-slate-300 hover:text-white text-sm font-medium transition-colors">Pricing</a>
+          <a href={B2B_PAGE} className="text-slate-400 hover:text-slate-200 text-sm font-medium transition-colors border-l border-slate-700 pl-8">
             For businesses →
           </a>
-          <a
-            href={CONSUMER_SCANNER}
-            className="bg-teal-600 hover:bg-teal-500 text-white text-sm font-semibold px-4 py-2 rounded-lg transition-colors"
-          >
-            Check a website free
-          </a>
         </div>
+        <a
+          href={CONSUMER_SCANNER}
+          className="bg-teal-600 hover:bg-teal-500 text-white text-sm font-semibold px-4 py-2 rounded-lg transition-colors"
+        >
+          Check a website free
+        </a>
       </div>
     </nav>
   )
@@ -36,7 +48,7 @@ function Nav() {
 // ─── Hero ─────────────────────────────────────────────────────────────────────
 function Hero() {
   return (
-    <section className="bg-[#0F172A] pt-16 pb-20">
+    <section className="bg-[#0F172A] pt-32 pb-20">
       <div className="max-w-4xl mx-auto px-6 text-center">
         <div className="inline-flex items-center gap-2 bg-teal-900/40 border border-teal-700/40 rounded-full px-4 py-1.5 mb-8">
           <span className="w-2 h-2 rounded-full bg-teal-400 animate-pulse" />
@@ -103,7 +115,7 @@ const DARK_PATTERNS = [
 
 function DarkPatterns() {
   return (
-    <section className="bg-slate-50 py-20">
+    <section id="what-we-check" className="bg-slate-50 py-20">
       <div className="max-w-5xl mx-auto px-6">
         <div className="text-center mb-14">
           <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">
@@ -137,7 +149,7 @@ const STEPS = [
 
 function HowItWorks() {
   return (
-    <section className="bg-white py-20">
+    <section id="how-it-works" className="bg-white py-20">
       <div className="max-w-4xl mx-auto px-6">
         <div className="text-center mb-14">
           <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">How it works</h2>
@@ -205,7 +217,7 @@ const CONSUMER_PLANS = [
 
 function Pricing() {
   return (
-    <section className="bg-white py-20">
+    <section id="pricing" className="bg-white py-20">
       <div className="max-w-4xl mx-auto px-6">
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">Simple pricing</h2>
@@ -299,17 +311,18 @@ function ScoreExplainer() {
 
 // ─── FAQ ──────────────────────────────────────────────────────────────────────
 const FAQS = [
-  { q: 'Is it really free?', a: 'Yes. The basic scan — one URL, up to one page — is always free. No account, no email, no credit card.' },
-  { q: 'How accurate is it?', a: "ClearSign analyses the HTML and text of a web page. It catches patterns that are present in the page code. It can't always detect issues that require logging in, completing checkout, or making a purchase — but it catches the vast majority of common tactics." },
-  { q: "What if the site looks fine?", a: "A high score means we didn't find anything on the pages we scanned. It's not a guarantee — some manipulation only appears during the checkout flow. But it's a solid signal." },
-  { q: 'Can I share my report?', a: 'Yes. Every report has a unique link you can share with friends and family — useful if someone you know is considering signing up to a site.' },
-  { q: "I'm a business — can I use ClearSign?", a: "Yes. ClearSign has a professional version designed for product teams, compliance officers, and legal teams. It includes regulatory mapping, PDF reports, API access, and more." },
+  { q: 'Is it really free?', a: 'Yes. The free plan gives you 5 scans per month with no account, no email, no credit card. The Pro plan ($19/month) gives you unlimited scans and deeper coverage across all 7 detection categories.' },
+  { q: 'How does the scan work?', a: "ClearSign fetches and analyses the HTML and text of a web page, checking it against 26 known manipulation patterns across 7 categories. It's fast — most scans complete in under 30 seconds." },
+  { q: 'Can it catch everything?', a: "ClearSign is very good at detecting patterns visible in the page code. It can't always catch issues that only appear after logging in, adding items to a cart, or entering checkout — but it covers the majority of common tactics consumers encounter." },
+  { q: "What if the site scores well?", a: "A high score means we didn't find anything on the pages we scanned. It's a strong signal, but not a guarantee — some manipulation only appears deeper in the purchase flow. Always read cancellation terms before entering payment details." },
+  { q: 'Can I share my report?', a: 'Yes. Every report has a unique link you can share — useful if a friend or family member is considering signing up to a service you want them to check first.' },
+  { q: "I run a business — can I use ClearSign to check my own product?", a: "Yes. ClearSign has a professional version for product teams, compliance officers, and legal teams. It includes regulatory mapping (DSA, FTC, CPRA, GDPR), PDF reports, API access, and more." },
 ]
 
 function FAQ() {
   const [open, setOpen] = useState<number | null>(null)
   return (
-    <section className="bg-white py-20">
+    <section id="faq" className="bg-white py-20">
       <div className="max-w-2xl mx-auto px-6">
         <h2 className="text-3xl font-bold text-slate-900 mb-10 text-center">Common questions</h2>
         <div className="space-y-3">
