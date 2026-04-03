@@ -2,115 +2,199 @@
 
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
-import {
-  Shield, Layout, Eye, Clock, DollarSign, RotateCcw,
-  BarChart2, Bell, CheckSquare, ChevronDown, ArrowRight,
-  Twitter, Linkedin, ExternalLink
-} from 'lucide-react'
 
-// ─── Product URLs ────────────────────────────────────────────────────────────
-const PRODUCT_B2B = 'https://clearsign-ashy.vercel.app/'
-const PRODUCT_CONSUMER = 'https://clearsign-ashy.vercel.app/consumer'
+const SCANNER_URL = 'https://clearsign-ashy.vercel.app/'
+
+// ─── Shared style helpers ─────────────────────────────────────────────────────
+const glass = {
+  background: 'rgba(255,255,255,0.04)',
+  border: '1px solid rgba(255,255,255,0.08)',
+  backdropFilter: 'blur(10px)',
+  boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.06)',
+}
+const glassHover = {
+  background: 'rgba(255,255,255,0.07)',
+  border: '1px solid rgba(255,255,255,0.13)',
+  boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.09), 0 12px 40px rgba(0,0,0,0.3)',
+}
+const tealGlow = '0 0 32px rgba(13,148,136,0.4), inset 0 1px 0 rgba(255,255,255,0.15)'
+const tealGlowHover = '0 0 48px rgba(13,148,136,0.6), inset 0 1px 0 rgba(255,255,255,0.2)'
 
 // ─── Nav ─────────────────────────────────────────────────────────────────────
 function Nav() {
   const [scrolled, setScrolled] = useState(false)
+  const [mobileOpen, setMobileOpen] = useState(false)
+
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 20)
-    window.addEventListener('scroll', onScroll)
-    return () => window.removeEventListener('scroll', onScroll)
+    const fn = () => setScrolled(window.scrollY > 40)
+    window.addEventListener('scroll', fn)
+    return () => window.removeEventListener('scroll', fn)
   }, [])
 
+  const navLinks = [
+    ['How It Works', '#how-it-works'],
+    ["Who It's For", '#who-its-for'],
+    ['Pricing', '#pricing'],
+  ]
+
   return (
-    <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-      scrolled ? 'bg-[#0F172A]/95 backdrop-blur shadow-lg' : 'bg-transparent'
-    }`}>
-      <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
-        <div className="flex items-center gap-2">
-          <Shield className="w-6 h-6 text-teal-400" />
-          <span className="text-white font-semibold text-lg tracking-tight">ClearSign</span>
-        </div>
-        <div className="hidden md:flex items-center gap-8">
-          <a href="#how-it-works" className="text-slate-300 hover:text-white text-sm font-medium transition-colors">How It Works</a>
-          <a href="#who-its-for" className="text-slate-300 hover:text-white text-sm font-medium transition-colors">Who It&apos;s For</a>
-          <Link href="/pricing" className="text-slate-300 hover:text-white text-sm font-medium transition-colors">Pricing</Link>
-          <Link href="/consumer" className="text-slate-400 hover:text-slate-200 text-sm font-medium transition-colors border-l border-slate-700 pl-8">
-            For consumers →
-          </Link>
-        </div>
-        <Link
-          href="/waitlist"
-          className="bg-teal-600 hover:bg-teal-500 text-white text-sm font-semibold px-4 py-2 rounded-lg transition-colors"
-        >
-          Request Early Access
-        </Link>
-      </div>
-    </nav>
+    <>
+      <header className="fixed top-0 left-0 right-0 z-50 flex justify-center px-4 pt-4">
+        <nav className="w-full max-w-6xl transition-all duration-500" style={{
+          background: scrolled ? 'rgba(5,6,27,0.9)' : 'rgba(5,6,27,0.6)',
+          backdropFilter: 'blur(16px)',
+          borderRadius: '16px',
+          border: '1px solid rgba(255,255,255,0.08)',
+          padding: '0 20px',
+        }}>
+          <div className="flex items-center justify-between h-14">
+            {/* Logo */}
+            <div className="flex items-center gap-2.5 flex-shrink-0">
+              <div className="w-7 h-7 rounded-lg flex items-center justify-center"
+                style={{ background: 'linear-gradient(135deg, #14b8a6, #0891b2)' }}>
+                <svg width="13" height="13" viewBox="0 0 14 14" fill="none">
+                  <path d="M7 1L13 4V10L7 13L1 10V4L7 1Z" stroke="white" strokeWidth="1.6" fill="none" strokeLinejoin="round"/>
+                </svg>
+              </div>
+              <span style={{ color: 'white', fontWeight: 600, fontSize: '14px', letterSpacing: '-0.01em', whiteSpace: 'nowrap' }}>ClearSign</span>
+            </div>
+
+            {/* Desktop links */}
+            <div className="hidden lg:flex items-center gap-6">
+              {navLinks.map(([l, h]) => (
+                <a key={l} href={h} style={{ color: 'rgba(255,255,255,0.5)', fontSize: '13px', fontWeight: 500, textDecoration: 'none', whiteSpace: 'nowrap' }}
+                  onMouseEnter={e => (e.currentTarget.style.color = 'white')}
+                  onMouseLeave={e => (e.currentTarget.style.color = 'rgba(255,255,255,0.5)')}>
+                  {l}
+                </a>
+              ))}
+              <div style={{ width: '1px', height: '14px', background: 'rgba(255,255,255,0.12)', flexShrink: 0 }} />
+              <a href="/consumer" style={{ color: 'rgba(255,255,255,0.35)', fontSize: '13px', fontWeight: 500, textDecoration: 'none', whiteSpace: 'nowrap' }}
+                onMouseEnter={e => (e.currentTarget.style.color = 'rgba(255,255,255,0.65)')}
+                onMouseLeave={e => (e.currentTarget.style.color = 'rgba(255,255,255,0.35)')}>
+                For consumers →
+              </a>
+            </div>
+
+            {/* Right side */}
+            <div className="flex items-center gap-3">
+              <a href="/waitlist" className="hidden sm:block"
+                style={{
+                  background: 'linear-gradient(135deg, #0d9488, #0891b2)',
+                  color: 'white', fontSize: '13px', fontWeight: 600,
+                  padding: '8px 16px', borderRadius: '999px', textDecoration: 'none',
+                  whiteSpace: 'nowrap', boxShadow: '0 0 18px rgba(13,148,136,0.35)',
+                }}
+                onMouseEnter={e => { (e.currentTarget as HTMLElement).style.boxShadow = '0 0 28px rgba(13,148,136,0.55)' }}
+                onMouseLeave={e => { (e.currentTarget as HTMLElement).style.boxShadow = '0 0 18px rgba(13,148,136,0.35)' }}>
+                Request early access
+              </a>
+
+              {/* Hamburger — mobile/tablet */}
+              <button
+                className="lg:hidden flex flex-col justify-center items-center w-9 h-9 rounded-lg gap-1.5"
+                style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)' }}
+                onClick={() => setMobileOpen(!mobileOpen)}
+                aria-label="Toggle menu"
+              >
+                <span className="block w-4 h-px transition-all" style={{ background: 'rgba(255,255,255,0.7)', transform: mobileOpen ? 'translateY(5px) rotate(45deg)' : 'none' }} />
+                <span className="block w-4 h-px transition-all" style={{ background: 'rgba(255,255,255,0.7)', opacity: mobileOpen ? 0 : 1 }} />
+                <span className="block w-4 h-px transition-all" style={{ background: 'rgba(255,255,255,0.7)', transform: mobileOpen ? 'translateY(-5px) rotate(-45deg)' : 'none' }} />
+              </button>
+            </div>
+          </div>
+
+          {/* Mobile dropdown */}
+          {mobileOpen && (
+            <div className="lg:hidden border-t pb-4" style={{ borderColor: 'rgba(255,255,255,0.07)', marginTop: '0' }}>
+              <div className="flex flex-col pt-3 gap-1">
+                {navLinks.map(([l, h]) => (
+                  <a key={l} href={h} onClick={() => setMobileOpen(false)}
+                    style={{ color: 'rgba(255,255,255,0.6)', fontSize: '14px', fontWeight: 500, textDecoration: 'none', padding: '10px 4px', display: 'block' }}
+                    onMouseEnter={e => (e.currentTarget.style.color = 'white')}
+                    onMouseLeave={e => (e.currentTarget.style.color = 'rgba(255,255,255,0.6)')}>
+                    {l}
+                  </a>
+                ))}
+                <a href="/consumer" onClick={() => setMobileOpen(false)}
+                  style={{ color: 'rgba(255,255,255,0.35)', fontSize: '14px', fontWeight: 500, textDecoration: 'none', padding: '10px 4px', display: 'block' }}>
+                  For consumers →
+                </a>
+                <a href="/waitlist"
+                  style={{ display: 'block', marginTop: '8px', background: 'linear-gradient(135deg, #0d9488, #0891b2)', color: 'white', fontSize: '14px', fontWeight: 600, padding: '12px 16px', borderRadius: '10px', textDecoration: 'none', textAlign: 'center' }}>
+                  Request early access
+                </a>
+              </div>
+            </div>
+          )}
+        </nav>
+      </header>
+    </>
   )
 }
 
 // ─── Hero ─────────────────────────────────────────────────────────────────────
 function Hero() {
   return (
-    <section className="relative bg-[#0F172A] min-h-screen flex items-center overflow-hidden">
-      {/* Dot grid background */}
-      <div
-        className="absolute inset-0 opacity-20"
-        style={{
-          backgroundImage: 'radial-gradient(circle, #475569 1px, transparent 1px)',
-          backgroundSize: '28px 28px',
-        }}
-      />
-      {/* Teal glow */}
-      <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[500px] bg-teal-500/8 rounded-full blur-3xl pointer-events-none" />
+    <section className="relative flex items-center justify-center text-center overflow-hidden"
+      style={{ minHeight: '100vh', background: '#05061b' }}>
+      <div className="absolute inset-0" style={{ background: 'radial-gradient(ellipse 80% 55% at 50% -5%, rgba(13,148,136,0.18) 0%, transparent 65%)' }} />
+      <div className="absolute inset-0" style={{ background: 'radial-gradient(ellipse 50% 40% at 85% 85%, rgba(8,145,178,0.07) 0%, transparent 60%)' }} />
+      <div className="absolute inset-0 opacity-[0.035]" style={{
+        backgroundImage: 'linear-gradient(rgba(255,255,255,1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,1) 1px, transparent 1px)',
+        backgroundSize: '72px 72px',
+      }} />
 
-      <div className="relative max-w-5xl mx-auto px-6 py-32 text-center">
-        <div className="inline-flex items-center gap-2 bg-teal-900/40 border border-teal-700/50 text-teal-300 text-xs font-medium px-3 py-1.5 rounded-full mb-8">
-          <span className="w-1.5 h-1.5 bg-teal-400 rounded-full animate-pulse" />
+      <div className="relative max-w-4xl mx-auto px-6 pt-36 pb-28">
+        <div className="inline-flex items-center gap-2 mb-8 px-3.5 py-1.5 rounded-full text-xs font-semibold"
+          style={{ background: 'rgba(13,148,136,0.1)', border: '1px solid rgba(13,148,136,0.22)', color: 'rgba(94,234,212,0.85)', letterSpacing: '0.04em' }}>
+          <span className="w-1.5 h-1.5 rounded-full bg-teal-400 animate-pulse" />
           Private beta — live now
         </div>
 
-        <h1 className="text-5xl md:text-7xl font-bold text-white leading-tight tracking-tight mb-6">
+        <h1 style={{ fontSize: 'clamp(50px, 8.5vw, 92px)', fontWeight: 700, letterSpacing: '-0.04em', lineHeight: 1, color: 'white', marginBottom: '24px' }}>
           Find dark patterns<br />
-          <span className="text-teal-400">before regulators do.</span>
+          <span style={{
+            background: 'linear-gradient(125deg, #2dd4bf 0%, #38bdf8 45%, #818cf8 100%)',
+            WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text',
+          }}>before regulators do.</span>
         </h1>
 
-        <p className="text-lg md:text-xl text-slate-400 max-w-2xl mx-auto leading-relaxed mb-10">
-          ClearSign scans your product for manipulative design patterns and maps every finding to the regulations that matter — ACL, Privacy Act, GDPR, DSA, FTC. Automated. Continuous. Defensible.
+        <p style={{ maxWidth: '500px', margin: '0 auto 40px', fontSize: '18px', lineHeight: '1.65', color: 'rgba(255,255,255,0.48)', letterSpacing: '-0.01em' }}>
+          ClearSign scans your product for manipulative design and maps every finding to the regulations that matter. Automated. Continuous. Defensible.
         </p>
 
-        {/* Primary CTAs */}
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-6">
-          <a
-            href={PRODUCT_B2B}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 bg-teal-600 hover:bg-teal-500 text-white font-bold px-8 py-4 rounded-xl text-base transition-colors shadow-lg shadow-teal-900/30"
-          >
-            Launch the scanner <ArrowRight className="w-5 h-5" />
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-3 mb-5">
+          <a href={SCANNER_URL} target="_blank" rel="noopener noreferrer"
+            className="flex items-center gap-2 rounded-xl font-semibold transition-all"
+            style={{ background: 'linear-gradient(135deg, #0d9488, #0891b2)', color: 'white', padding: '15px 30px', fontSize: '15px', letterSpacing: '-0.01em', boxShadow: tealGlow, textDecoration: 'none' }}
+            onMouseEnter={e => { (e.currentTarget as HTMLElement).style.boxShadow = tealGlowHover }}
+            onMouseLeave={e => { (e.currentTarget as HTMLElement).style.boxShadow = tealGlow }}>
+            Launch the scanner
+            <svg width="15" height="15" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
           </a>
-          <Link
-            href="/waitlist"
-            className="inline-flex items-center gap-1.5 border border-slate-600 hover:border-slate-400 text-slate-300 hover:text-white font-semibold px-8 py-4 rounded-xl text-base transition-colors"
-          >
+          <a href="/waitlist"
+            className="flex items-center rounded-xl font-semibold transition-all"
+            style={{ ...glass, color: 'rgba(255,255,255,0.75)', padding: '15px 30px', fontSize: '15px', letterSpacing: '-0.01em', textDecoration: 'none' }}
+            onMouseEnter={e => { Object.assign((e.currentTarget as HTMLElement).style, glassHover) }}
+            onMouseLeave={e => { Object.assign((e.currentTarget as HTMLElement).style, glass); (e.currentTarget as HTMLElement).style.color = 'rgba(255,255,255,0.75)' }}>
             Request early access
-          </Link>
+          </a>
         </div>
 
-        <p className="text-slate-600 text-sm mb-16">
+        <p style={{ color: 'rgba(255,255,255,0.22)', fontSize: '12px', marginBottom: '56px' }}>
           Not a business?{' '}
-          <Link href="/consumer" className="text-slate-400 hover:text-teal-400 transition-colors">
-            Try the free consumer tool →
-          </Link>
+          <a href="/consumer" style={{ color: 'rgba(94,234,212,0.55)', textDecoration: 'none' }}
+            onMouseEnter={e => (e.currentTarget.style.color = 'rgba(94,234,212,0.85)')}
+            onMouseLeave={e => (e.currentTarget.style.color = 'rgba(94,234,212,0.55)')}>Try the free consumer tool →</a>
         </p>
 
-        {/* Trust strip */}
-        <div className="flex flex-wrap items-center justify-center gap-x-3 gap-y-1 text-slate-600 text-xs">
-          <span className="text-slate-500 mr-1">Covers:</span>
-          {['ACL', 'Unfair Trading Practices Bill', 'GDPR', 'DSA', 'FTC Act'].map((reg, i, arr) => (
-            <span key={reg} className="flex items-center gap-3">
-              <span className="text-slate-500">{reg}</span>
-              {i < arr.length - 1 && <span className="text-slate-700">·</span>}
+        <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-1" style={{ color: 'rgba(255,255,255,0.18)', fontSize: '11px', letterSpacing: '0.1em' }}>
+          <span style={{ color: 'rgba(255,255,255,0.14)' }}>COVERS</span>
+          {['ACL', 'Unfair Trading Practices Bill', 'GDPR', 'DSA', 'FTC Act'].map((r, i, a) => (
+            <span key={r} className="flex items-center gap-5">
+              <span>{r}</span>
+              {i < a.length-1 && <span style={{ color: 'rgba(255,255,255,0.1)' }}>·</span>}
             </span>
           ))}
         </div>
@@ -119,7 +203,7 @@ function Hero() {
   )
 }
 
-// ─── Problem ─────────────────────────────────────────────────────────────────
+// ─── Problem ──────────────────────────────────────────────────────────────────
 function Problem() {
   const cards = [
     {
@@ -127,8 +211,8 @@ function Problem() {
       body: "Australia's Unfair Trading Practices Bill will explicitly ban dark patterns from July 2027. The ACCC has already named dark patterns a 2026–27 enforcement priority. Globally, the EU DSA, US FTC, and GDPR are all active — with fines reaching hundreds of millions.",
     },
     {
-      title: 'Manual Audits Don\'t Scale',
-      body: 'Most teams rely on ad-hoc reviews, designer intuition, or waiting for complaints. That\'s reactive, inconsistent, and indefensible when a regulator comes knocking.',
+      title: "Manual Audits Don't Scale",
+      body: "Most teams rely on ad-hoc reviews, designer intuition, or waiting for complaints. That's reactive, inconsistent, and indefensible when a regulator comes knocking.",
     },
     {
       title: 'No Tool Exists For This',
@@ -137,22 +221,25 @@ function Problem() {
   ]
 
   return (
-    <section className="bg-slate-50 py-24">
+    <section className="py-28" style={{ background: '#030711' }}>
       <div className="max-w-6xl mx-auto px-6">
         <div className="text-center mb-14">
-          <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">
-            Dark patterns are now a regulatory risk.
+          <p className="text-xs font-semibold uppercase tracking-widest mb-4" style={{ color: 'rgba(94,234,212,0.55)', letterSpacing: '0.14em' }}>The problem</p>
+          <h2 style={{ fontSize: 'clamp(28px, 4.5vw, 48px)', fontWeight: 700, letterSpacing: '-0.03em', color: 'white', lineHeight: 1.15 }}>
+            Dark patterns are now<br />a regulatory risk.
           </h2>
-          <p className="text-lg text-slate-500 max-w-2xl mx-auto">
-            Regulators worldwide are enforcing against manipulative design. Most teams don&apos;t have a
-            systematic way to find and fix these issues before they become lawsuits.
+          <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: '17px', marginTop: '16px', maxWidth: '480px', margin: '16px auto 0', lineHeight: 1.65 }}>
+            Regulatory standards are catching up with manipulative design. Most teams don&apos;t have a systematic way to identify and fix these issues before they become liabilities.
           </p>
         </div>
-        <div className="grid md:grid-cols-3 gap-6">
-          {cards.map((card) => (
-            <div key={card.title} className="bg-white rounded-xl p-7 shadow-sm border border-slate-100">
-              <h3 className="text-lg font-semibold text-slate-900 mb-3">{card.title}</h3>
-              <p className="text-slate-500 leading-relaxed text-sm">{card.body}</p>
+        <div className="grid md:grid-cols-3 gap-4">
+          {cards.map(c => (
+            <div key={c.title} className="rounded-2xl p-7 transition-all duration-300"
+              style={glass}
+              onMouseEnter={e => Object.assign((e.currentTarget as HTMLElement).style, glassHover)}
+              onMouseLeave={e => Object.assign((e.currentTarget as HTMLElement).style, glass)}>
+              <h3 style={{ color: 'white', fontWeight: 600, fontSize: '16px', letterSpacing: '-0.015em', marginBottom: '12px' }}>{c.title}</h3>
+              <p style={{ color: 'rgba(255,255,255,0.42)', fontSize: '14px', lineHeight: 1.7 }}>{c.body}</p>
             </div>
           ))}
         </div>
@@ -166,57 +253,89 @@ function HowItWorks() {
   const steps = [
     {
       num: '01',
-      title: 'Scan',
-      body: 'Point ClearSign at any URL. Our engine crawls your pages, analyses the DOM, inspects copy, and checks interaction patterns against a library of known dark pattern categories.',
-      side: 'left',
+      label: 'Scan',
+      title: 'Point it at any URL.',
+      body: 'ClearSign crawls your pages, analyses the DOM, inspects copy, and checks interaction patterns against a library of 26 known dark pattern types across 7 categories.',
     },
     {
       num: '02',
-      title: 'Score',
-      body: 'Every finding is classified by type (confirm-shaming, hidden costs, forced continuity, and more), severity level, and the specific regulations it may violate — ACL, Privacy Act, GDPR, DSA, FTC.',
-      side: 'right',
+      label: 'Score',
+      title: 'Get a scored report.',
+      body: 'Every finding is classified by type, severity, and the specific regulations it may violate — ACL, Privacy Act, GDPR, DSA, FTC — with a 0–100 trust score and category breakdown.',
     },
     {
       num: '03',
-      title: 'Fix',
-      body: 'Get actionable remediation guidance for each issue. Prioritise by regulatory risk. Export compliance-ready reports your legal team can actually use.',
-      side: 'left',
+      label: 'Fix',
+      title: 'Prioritise and remediate.',
+      body: 'Actionable remediation guidance for each issue, prioritised by regulatory risk. Export compliance-ready reports your legal team can put in front of an auditor.',
     },
   ]
 
   return (
-    <section id="how-it-works" className="bg-white py-24">
-      <div className="max-w-6xl mx-auto px-6">
-        <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">How It Works</h2>
-          <p className="text-slate-500 text-lg">Three steps from URL to defensible compliance report.</p>
+    <section id="how-it-works" className="py-28" style={{ background: '#05061b', borderTop: '1px solid rgba(255,255,255,0.05)' }}>
+      <div className="max-w-5xl mx-auto px-6">
+        <div className="text-center mb-20">
+          <p className="text-xs font-semibold uppercase tracking-widest mb-4" style={{ color: 'rgba(94,234,212,0.55)', letterSpacing: '0.14em' }}>How it works</p>
+          <h2 style={{ fontSize: 'clamp(28px, 4.5vw, 48px)', fontWeight: 700, letterSpacing: '-0.03em', color: 'white', lineHeight: 1.15 }}>
+            From URL to defensible<br />compliance report.
+          </h2>
         </div>
 
-        <div className="space-y-16">
-          {steps.map((step, i) => (
-            <div
-              key={step.num}
-              className={`flex flex-col ${i % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'} gap-10 items-center`}
-            >
-              <div className="flex-1">
-                <div className="text-5xl font-black text-slate-100 mb-2">{step.num}</div>
-                <h3 className="text-2xl font-bold text-slate-900 mb-4">{step.title}</h3>
-                <p className="text-slate-500 leading-relaxed text-base">{step.body}</p>
+        <div className="space-y-6">
+          {steps.map((s, i) => (
+            <div key={s.num} className={`flex flex-col gap-5 items-stretch ${i % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'}`}>
+              {/* Text side */}
+              <div className="flex-1 rounded-2xl p-8 flex flex-col justify-center" style={glass}>
+                <div className="flex items-center gap-3 mb-5">
+                  <div className="w-9 h-9 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0"
+                    style={{ background: 'rgba(13,148,136,0.15)', border: '1px solid rgba(13,148,136,0.35)', color: 'rgba(94,234,212,0.9)', letterSpacing: '0.05em' }}>
+                    {s.num}
+                  </div>
+                  <span style={{ color: 'rgba(255,255,255,0.3)', fontSize: '11px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase' }}>{s.label}</span>
+                </div>
+                <h3 style={{ color: 'white', fontWeight: 600, fontSize: '22px', letterSpacing: '-0.025em', marginBottom: '12px', lineHeight: 1.2 }}>{s.title}</h3>
+                <p style={{ color: 'rgba(255,255,255,0.45)', fontSize: '15px', lineHeight: 1.75 }}>{s.body}</p>
               </div>
-              <div className="flex-1 bg-slate-50 rounded-2xl h-52 flex items-center justify-center border border-slate-100">
-                <span className="text-slate-300 text-sm">Product screenshot coming soon</span>
+
+              {/* Screen placeholder */}
+              <div className="flex-1 rounded-2xl overflow-hidden flex flex-col" style={{
+                border: '1px solid rgba(255,255,255,0.08)',
+                background: '#0a0f1e',
+                minHeight: '240px',
+              }}>
+                <div className="flex items-center gap-2 px-4 py-2.5 flex-shrink-0" style={{ background: 'rgba(255,255,255,0.03)', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
+                  <div className="flex gap-1.5">
+                    {[0,1,2].map(d => <div key={d} className="w-2.5 h-2.5 rounded-full" style={{ background: 'rgba(255,255,255,0.1)' }} />)}
+                  </div>
+                  <div className="mx-auto rounded px-3 py-0.5 text-xs" style={{ background: 'rgba(255,255,255,0.05)', color: 'rgba(255,255,255,0.2)' }}>
+                    {s.label === 'Scan' ? 'clearsign — scanner' : s.label === 'Score' ? 'clearsign — report' : 'clearsign — findings'}
+                  </div>
+                </div>
+                <div className="flex-1 flex items-center justify-center p-6">
+                  <div className="text-center">
+                    <div className="w-12 h-12 rounded-xl flex items-center justify-center mx-auto mb-3" style={{ background: 'rgba(13,148,136,0.1)', border: '1px solid rgba(13,148,136,0.2)' }}>
+                      <span style={{ fontSize: '20px' }}>
+                        {s.label === 'Scan' ? '🔍' : s.label === 'Score' ? '📊' : '🔧'}
+                      </span>
+                    </div>
+                    <p style={{ color: 'rgba(255,255,255,0.18)', fontSize: '12px', fontWeight: 500 }}>{s.label} screen</p>
+                    <p style={{ color: 'rgba(255,255,255,0.1)', fontSize: '11px', marginTop: '3px' }}>Product screenshot · coming soon</p>
+                  </div>
+                </div>
               </div>
             </div>
           ))}
         </div>
 
-        <div className="text-center mt-16">
-          <Link
-            href="/waitlist"
-            className="inline-flex items-center gap-2 bg-teal-600 hover:bg-teal-500 text-white font-semibold px-7 py-3.5 rounded-lg transition-colors"
-          >
-            Request Early Access <ArrowRight className="w-4 h-4" />
-          </Link>
+        <div className="text-center mt-14">
+          <a href="/waitlist"
+            className="inline-flex items-center gap-2 rounded-xl font-semibold transition-all"
+            style={{ background: 'linear-gradient(135deg, #0d9488, #0891b2)', color: 'white', padding: '14px 28px', fontSize: '14px', letterSpacing: '-0.01em', boxShadow: tealGlow, textDecoration: 'none' }}
+            onMouseEnter={e => { (e.currentTarget as HTMLElement).style.boxShadow = tealGlowHover }}
+            onMouseLeave={e => { (e.currentTarget as HTMLElement).style.boxShadow = tealGlow }}>
+            Request early access
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
+          </a>
         </div>
       </div>
     </section>
@@ -224,113 +343,148 @@ function HowItWorks() {
 }
 
 // ─── Who It's For ─────────────────────────────────────────────────────────────
+const PERSONAS = [
+  {
+    tab: 'Product & Design',
+    headline: 'Ship with confidence.',
+    body: "Know before launch whether a pattern you've shipped will get flagged — by users or regulators. ClearSign gives your team a shared, objective reference.",
+    bullets: ['Catch issues in review, not production', 'Plain-English findings the whole team understands', 'Track compliance score across releases'],
+  },
+  {
+    tab: 'Compliance & Legal',
+    headline: 'Defensible evidence, on demand.',
+    body: 'Regulators want proof you took reasonable steps. ClearSign provides dated scan records, regulatory mapping, and remediation trails you can put in front of an auditor.',
+    bullets: ['Mapped to ACL, Privacy Act, GDPR, DSA, and FTC', 'PDF reports with finding provenance', 'Continuous scan history'],
+  },
+  {
+    tab: 'Founders & Execs',
+    headline: "Don't let UX become a liability.",
+    body: "Dark pattern enforcement is accelerating in Australia and globally. A single ACCC action or DSA notice costs more than years of compliance tooling. ClearSign is your early warning system.",
+    bullets: ['Board-ready compliance posture', 'Reduce exposure before fundraising or acquisition', 'Monitor competitors and industry peers'],
+  },
+]
+
 function WhoItsFor() {
-  const audiences = [
-    {
-      icon: <Shield className="w-7 h-7 text-teal-500" />,
-      label: 'Compliance & Legal Teams',
-      headline: 'Audit with confidence.',
-      bullets: [
-        'Systematic, repeatable dark pattern audits — not ad-hoc reviews',
-        'Regulatory mapping to ACL, Privacy Act, GDPR, DSA, and FTC',
-        'Exportable compliance reports for regulators and board',
-        'Audit trail that proves you checked — before anyone asked',
-      ],
-      param: 'compliance',
-    },
-    {
-      icon: <Layout className="w-7 h-7 text-teal-500" />,
-      label: 'Product & Design Teams',
-      headline: 'Ship ethical products, faster.',
-      bullets: [
-        'Catch manipulative patterns before they reach production',
-        'Severity scoring helps you prioritise what matters',
-        'Clear remediation guidance — not just "this is bad"',
-        'Build user trust as a competitive advantage',
-      ],
-      param: 'product',
-    },
-    {
-      icon: <Eye className="w-7 h-7 text-teal-500" />,
-      label: 'Consumer Advocacy & Regulators',
-      headline: 'Evidence-backed enforcement.',
-      bullets: [
-        'Scan any public-facing website or app for dark patterns',
-        'Documented findings mapped to specific regulatory violations',
-        'Exportable evidence packages for enforcement proceedings',
-        'Monitor repeat offenders over time',
-      ],
-      param: 'consumer',
-    },
-  ]
+  const [active, setActive] = useState(0)
+  const p = PERSONAS[active]
 
   return (
-    <section id="who-its-for" className="bg-slate-50 py-24">
-      <div className="max-w-6xl mx-auto px-6">
+    <section id="who-its-for" className="py-28" style={{ background: '#030711', borderTop: '1px solid rgba(255,255,255,0.05)' }}>
+      <div className="max-w-5xl mx-auto px-6">
         <div className="text-center mb-14">
-          <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">Who It&apos;s For</h2>
-          <p className="text-slate-500 text-lg">Built for three teams with different needs, one shared goal.</p>
+          <p className="text-xs font-semibold uppercase tracking-widest mb-4" style={{ color: 'rgba(94,234,212,0.55)', letterSpacing: '0.14em' }}>Who it&apos;s for</p>
+          <h2 style={{ fontSize: 'clamp(28px, 4.5vw, 48px)', fontWeight: 700, letterSpacing: '-0.03em', color: 'white', lineHeight: 1.15 }}>
+            Built for the people<br />who ship the product.
+          </h2>
         </div>
-        <div className="grid md:grid-cols-3 gap-6">
-          {audiences.map((a) => (
-            <div key={a.param} className="bg-white rounded-xl p-7 shadow-sm border border-slate-100 flex flex-col">
-              <div className="mb-4">{a.icon}</div>
-              <div className="text-xs font-semibold text-teal-600 uppercase tracking-wider mb-2">{a.label}</div>
-              <h3 className="text-xl font-bold text-slate-900 mb-4">{a.headline}</h3>
-              <ul className="space-y-2.5 flex-1">
-                {a.bullets.map((b) => (
-                  <li key={b} className="flex items-start gap-2.5 text-sm text-slate-500">
-                    <span className="mt-0.5 w-4 h-4 rounded-full bg-teal-50 border border-teal-200 flex items-center justify-center flex-shrink-0">
-                      <span className="w-1.5 h-1.5 rounded-full bg-teal-500" />
-                    </span>
+
+        <div className="flex justify-center gap-2 mb-10 flex-wrap">
+          {PERSONAS.map((persona, i) => (
+            <button key={persona.tab} onClick={() => setActive(i)}
+              className="px-4 py-2 rounded-full text-xs font-semibold transition-all duration-200"
+              style={{
+                background: active === i ? 'rgba(13,148,136,0.18)' : 'rgba(255,255,255,0.04)',
+                border: active === i ? '1px solid rgba(13,148,136,0.38)' : '1px solid rgba(255,255,255,0.08)',
+                color: active === i ? 'rgba(94,234,212,0.9)' : 'rgba(255,255,255,0.38)',
+                cursor: 'pointer',
+              }}>
+              {persona.tab}
+            </button>
+          ))}
+        </div>
+
+        <div className="rounded-3xl p-10 transition-all" style={glass}>
+          <div className="flex flex-col md:flex-row gap-10 items-center">
+            {/* Left: text content */}
+            <div className="flex-1 min-w-0">
+              <p className="text-xs font-semibold uppercase tracking-widest mb-3" style={{ color: 'rgba(94,234,212,0.55)', letterSpacing: '0.12em' }}>{p.tab}</p>
+              <h3 style={{ color: 'white', fontWeight: 700, fontSize: 'clamp(22px, 3vw, 30px)', letterSpacing: '-0.025em', marginBottom: '14px', lineHeight: 1.2 }}>{p.headline}</h3>
+              <p style={{ color: 'rgba(255,255,255,0.47)', fontSize: '16px', lineHeight: 1.7, marginBottom: '24px' }}>{p.body}</p>
+              <ul className="space-y-2.5">
+                {p.bullets.map(b => (
+                  <li key={b} className="flex items-center gap-3" style={{ color: 'rgba(255,255,255,0.62)', fontSize: '14px' }}>
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                      <path d="M3 8l3.5 3.5L13 4.5" stroke="rgba(45,212,191,0.75)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                    </svg>
                     {b}
                   </li>
                 ))}
               </ul>
-              <Link
-                href={`/waitlist?audience=${a.param}`}
-                className="mt-6 text-center border border-teal-600 text-teal-600 hover:bg-teal-600 hover:text-white font-semibold px-5 py-2.5 rounded-lg transition-colors text-sm"
-              >
-                Join the Waitlist
-              </Link>
+              <a href="/waitlist"
+                style={{ display: 'inline-flex', alignItems: 'center', marginTop: '28px', color: 'rgba(94,234,212,0.7)', fontSize: '13px', fontWeight: 600, textDecoration: 'none', letterSpacing: '-0.005em' }}
+                onMouseEnter={e => (e.currentTarget.style.color = 'rgba(94,234,212,1)')}
+                onMouseLeave={e => (e.currentTarget.style.color = 'rgba(94,234,212,0.7)')}>
+                Join the waitlist →
+              </a>
             </div>
-          ))}
+
+            {/* Right: product screen placeholder */}
+            <div className="flex-shrink-0 w-full md:w-72 lg:w-80 rounded-2xl overflow-hidden flex flex-col" style={{
+              border: '1px solid rgba(255,255,255,0.08)',
+              background: '#0a0f1e',
+              minHeight: '260px',
+            }}>
+              <div className="flex items-center gap-2 px-4 py-2.5 flex-shrink-0" style={{ background: 'rgba(255,255,255,0.03)', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
+                <div className="flex gap-1.5">
+                  {[0,1,2].map(d => <div key={d} className="w-2.5 h-2.5 rounded-full" style={{ background: 'rgba(255,255,255,0.1)' }} />)}
+                </div>
+                <div className="mx-auto rounded px-3 py-0.5 text-xs" style={{ background: 'rgba(255,255,255,0.05)', color: 'rgba(255,255,255,0.2)' }}>
+                  clearsign — report
+                </div>
+              </div>
+              <div className="flex-1 flex items-center justify-center p-6">
+                <div className="text-center">
+                  <div className="w-12 h-12 rounded-xl flex items-center justify-center mx-auto mb-3" style={{ background: 'rgba(13,148,136,0.1)', border: '1px solid rgba(13,148,136,0.2)' }}>
+                    <span style={{ fontSize: '20px' }}>📊</span>
+                  </div>
+                  <p style={{ color: 'rgba(255,255,255,0.18)', fontSize: '12px', fontWeight: 500 }}>Report screen</p>
+                  <p style={{ color: 'rgba(255,255,255,0.1)', fontSize: '11px', marginTop: '3px' }}>Product screenshot · coming soon</p>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </section>
   )
 }
 
-// ─── What We Detect ──────────────────────────────────────────────────────────
-function WhatWeDetect() {
-  const categories = [
-    { icon: <Bell className="w-5 h-5" />, name: 'Confirm-shaming', desc: 'Guilt-tripping language on decline buttons ("No thanks, I don\'t want to save money")' },
-    { icon: <DollarSign className="w-5 h-5" />, name: 'Hidden costs', desc: 'Fees, charges, or conditions revealed only at checkout or deep in a flow' },
-    { icon: <RotateCcw className="w-5 h-5" />, name: 'Forced continuity', desc: 'Auto-renewal traps and subscriptions that are easy to start, hard to stop' },
-    { icon: <BarChart2 className="w-5 h-5" />, name: 'Asymmetric choice', desc: 'Visual tricks that make one option look far more prominent than the other' },
-    { icon: <Clock className="w-5 h-5" />, name: 'Nagging', desc: 'Repeated interruptions pushing users toward a preferred action' },
-    { icon: <CheckSquare className="w-5 h-5" />, name: 'Sneaking', desc: 'Pre-checked boxes, items added to cart, or consent assumed without clear action' },
-  ]
+// ─── What We Detect ───────────────────────────────────────────────────────────
+const CATEGORIES = [
+  { icon: '⏱', name: 'Urgency & Pressure', desc: 'Fake countdown timers, manufactured scarcity, and "limited time" claims designed to bypass rational decision-making.' },
+  { icon: '💸', name: 'Hidden Costs', desc: 'Drip pricing, pre-ticked add-ons, virtual currencies, and fees revealed only at the final step of checkout.' },
+  { icon: '🚫', name: 'Obstruction', desc: 'Cancellation flows designed to exhaust you — no cancel button, call-to-cancel, confirm-shaming, and hidden unsubscribe links.' },
+  { icon: '👁', name: 'Misdirection', desc: 'CTA prominence tricks, disguised ads, trick questions, and fake progress bars that steer users toward unintended choices.' },
+  { icon: '⭐', name: 'Social Proof', desc: "Fake reviews, manufactured popularity signals, and 'X people viewing this' claims that can't be verified." },
+  { icon: '🔒', name: 'Privacy', desc: 'Pre-selected data sharing, dark cookie consent patterns, obscured privacy settings, and permission overreach.' },
+  { icon: '🔄', name: 'Subscription Traps', desc: 'Trial-to-paid charges without clear warnings, buried subscription terms, and no self-serve cancellation path.' },
+]
 
+function WhatWeDetect() {
   return (
-    <section className="bg-[#1E293B] py-24">
+    <section className="py-28" style={{ background: '#05061b', borderTop: '1px solid rgba(255,255,255,0.05)' }}>
       <div className="max-w-6xl mx-auto px-6">
         <div className="text-center mb-14">
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-            Six categories of manipulative design.<br />Detected automatically.
+          <p className="text-xs font-semibold uppercase tracking-widest mb-4" style={{ color: 'rgba(94,234,212,0.55)', letterSpacing: '0.14em' }}>Detection</p>
+          <h2 style={{ fontSize: 'clamp(28px, 4.5vw, 48px)', fontWeight: 700, letterSpacing: '-0.03em', color: 'white', lineHeight: 1.15 }}>
+            Seven categories of manipulative<br />design. Detected automatically.
           </h2>
         </div>
-        <div className="grid md:grid-cols-3 gap-5">
-          {categories.map((c) => (
-            <div key={c.name} className="bg-slate-800/50 border border-slate-700 rounded-xl p-6">
-              <div className="text-teal-400 mb-3">{c.icon}</div>
-              <h3 className="text-white font-semibold text-base mb-2">{c.name}</h3>
-              <p className="text-slate-400 text-sm leading-relaxed">{c.desc}</p>
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+          {CATEGORIES.map((c, i) => (
+            <div key={c.name}
+              className={`rounded-2xl p-6 transition-all duration-300 ${i === 6 ? 'md:col-span-2 lg:col-span-1' : ''}`}
+              style={glass}
+              onMouseEnter={e => Object.assign((e.currentTarget as HTMLElement).style, glassHover)}
+              onMouseLeave={e => Object.assign((e.currentTarget as HTMLElement).style, glass)}>
+              <div style={{ fontSize: '22px', marginBottom: '12px' }}>{c.icon}</div>
+              <h3 style={{ color: 'white', fontWeight: 600, fontSize: '15px', letterSpacing: '-0.01em', marginBottom: '8px' }}>{c.name}</h3>
+              <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: '13px', lineHeight: 1.7 }}>{c.desc}</p>
             </div>
           ))}
         </div>
-        <p className="text-center text-slate-500 text-sm mt-8">
-          More detection categories on the roadmap — including trick questions, bait-and-switch, disguised ads, and visual misdirection.
+        <p style={{ textAlign: 'center', color: 'rgba(255,255,255,0.2)', fontSize: '13px', marginTop: '24px' }}>
+          26 individual patterns detected across 7 categories — with more on the roadmap.
         </p>
       </div>
     </section>
@@ -338,51 +492,52 @@ function WhatWeDetect() {
 }
 
 // ─── Regulatory Context ───────────────────────────────────────────────────────
-function RegulatoryContext() {
-  const regs = [
-    { name: 'Australian Consumer Law', region: 'Australia', status: 'Active', provision: 'Misleading and deceptive conduct — ACCC actively targeting dark patterns' },
-    { name: 'Unfair Trading Practices Bill', region: 'Australia', status: 'Exposure draft', provision: 'Explicit dark pattern prohibition; subscription traps; drip pricing. Enforceable July 2027' },
-    { name: 'Privacy Act 1988', region: 'Australia', status: 'Active', provision: 'Consent obtained via dark patterns may be invalid' },
-    { name: 'Digital Services Act', region: 'EU', status: 'Active', provision: 'Explicitly prohibits dark patterns on platforms' },
-    { name: 'GDPR', region: 'EU', status: 'Active', provision: 'Consent obtained via dark patterns is invalid' },
-    { name: 'FTC Section 5', region: 'US', status: 'Active enforcement', provision: 'Dark patterns as deceptive trade practices' },
-  ]
+const REGS = [
+  { name: 'Australian Consumer Law', region: 'Australia 🇦🇺', status: 'Active', provision: 'Misleading and deceptive conduct — ACCC actively targeting dark patterns' },
+  { name: 'Unfair Trading Practices Bill', region: 'Australia 🇦🇺', status: 'Exposure draft', provision: 'Explicit dark pattern prohibition; subscription traps; drip pricing. Enforceable July 2027' },
+  { name: 'Privacy Act 1988', region: 'Australia 🇦🇺', status: 'Active', provision: 'Consent obtained via dark patterns may be invalid' },
+  { name: 'Digital Services Act', region: 'EU', status: 'Active', provision: 'Explicitly prohibits dark patterns on platforms' },
+  { name: 'GDPR', region: 'EU', status: 'Active', provision: 'Consent obtained via dark patterns is invalid' },
+  { name: 'FTC Section 5', region: 'US', status: 'Active enforcement', provision: 'Dark patterns as deceptive trade practices' },
+]
 
+function RegulatoryContext() {
   return (
-    <section className="bg-white py-24">
+    <section className="py-28" style={{ background: '#030711', borderTop: '1px solid rgba(255,255,255,0.05)' }}>
       <div className="max-w-5xl mx-auto px-6">
         <div className="text-center mb-14">
-          <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">
-            Findings mapped to the regulations that matter.
+          <p className="text-xs font-semibold uppercase tracking-widest mb-4" style={{ color: 'rgba(94,234,212,0.55)', letterSpacing: '0.14em' }}>Regulatory mapping</p>
+          <h2 style={{ fontSize: 'clamp(28px, 4.5vw, 48px)', fontWeight: 700, letterSpacing: '-0.03em', color: 'white', lineHeight: 1.15 }}>
+            Findings mapped to the<br />regulations that matter.
           </h2>
         </div>
-        <div className="overflow-x-auto rounded-xl border border-slate-100 shadow-sm">
+        <div className="rounded-2xl overflow-hidden" style={{ border: '1px solid rgba(255,255,255,0.08)' }}>
           <table className="w-full text-sm">
             <thead>
-              <tr className="bg-slate-50 text-slate-500 text-xs uppercase tracking-wider">
-                <th className="text-left px-6 py-4 font-semibold">Regulation</th>
-                <th className="text-left px-6 py-4 font-semibold">Region</th>
-                <th className="text-left px-6 py-4 font-semibold">Status</th>
-                <th className="text-left px-6 py-4 font-semibold">Key Provision</th>
+              <tr style={{ background: 'rgba(255,255,255,0.04)', borderBottom: '1px solid rgba(255,255,255,0.07)' }}>
+                {['Regulation','Region','Status','Key Provision'].map(h => (
+                  <th key={h} className="text-left px-6 py-4" style={{ color: 'rgba(255,255,255,0.3)', fontSize: '11px', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase' }}>{h}</th>
+                ))}
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-50">
-              {regs.map((r, i) => {
-                const isExposureDraft = r.status === 'Exposure draft'
-                const badgeText = isExposureDraft ? 'text-amber-700' : 'text-emerald-700'
-                const badgeBg = isExposureDraft ? 'bg-amber-50' : 'bg-emerald-50'
-                const dotColor = isExposureDraft ? 'bg-amber-500' : 'bg-emerald-500'
+            <tbody>
+              {REGS.map((r, i) => {
+                const isDraft = r.status === 'Exposure draft'
+                const badgeBg = isDraft ? 'rgba(245,158,11,0.12)' : 'rgba(13,148,136,0.12)'
+                const badgeBorder = isDraft ? 'rgba(245,158,11,0.3)' : 'rgba(13,148,136,0.25)'
+                const badgeColor = isDraft ? 'rgba(252,211,77,0.9)' : 'rgba(94,234,212,0.8)'
                 return (
-                  <tr key={r.name} className={i % 2 === 0 ? 'bg-white' : 'bg-slate-50/50'}>
-                    <td className="px-6 py-4 font-semibold text-slate-900">{r.name}</td>
-                    <td className="px-6 py-4 text-slate-500">{r.region}</td>
+                  <tr key={r.name} style={{ borderBottom: i < REGS.length-1 ? '1px solid rgba(255,255,255,0.05)' : 'none', background: i % 2 === 0 ? 'transparent' : 'rgba(255,255,255,0.015)' }}>
+                    <td className="px-6 py-4" style={{ color: 'white', fontWeight: 500, fontSize: '14px' }}>{r.name}</td>
+                    <td className="px-6 py-4" style={{ color: 'rgba(255,255,255,0.4)', fontSize: '13px' }}>{r.region}</td>
                     <td className="px-6 py-4">
-                      <span className={`inline-flex items-center gap-1.5 text-xs font-medium ${badgeText} ${badgeBg} px-2.5 py-1 rounded-full`}>
-                        <span className={`w-1.5 h-1.5 rounded-full ${dotColor}`} />
+                      <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold"
+                        style={{ background: badgeBg, border: `1px solid ${badgeBorder}`, color: badgeColor }}>
+                        <span className="w-1.5 h-1.5 rounded-full" style={{ background: badgeColor }} />
                         {r.status}
                       </span>
                     </td>
-                    <td className="px-6 py-4 text-slate-500">{r.provision}</td>
+                    <td className="px-6 py-4" style={{ color: 'rgba(255,255,255,0.4)', fontSize: '13px' }}>{r.provision}</td>
                   </tr>
                 )
               })}
@@ -394,29 +549,30 @@ function RegulatoryContext() {
   )
 }
 
-// ─── Social Proof ─────────────────────────────────────────────────────────────
-function SocialProof() {
+// ─── Stats ────────────────────────────────────────────────────────────────────
+function Stats() {
   const stats = [
-    { value: '$345M+', label: 'Largest dark pattern enforcement fine (TikTok, EU)' },
-    { value: '68', label: 'Known dark pattern types in academic taxonomy' },
-    { value: '6+', label: 'Jurisdictions with active dark pattern regulation' },
+    { value: '$345M+', label: 'Largest dark pattern fine', sub: 'TikTok, EU Digital Services Act' },
+    { value: '68', label: 'Known dark pattern types', sub: 'Across peer-reviewed taxonomies' },
+    { value: '6+', label: 'Active jurisdictions', sub: 'Australia leading, with EU and US actively enforcing' },
   ]
 
   return (
-    <section className="bg-slate-50 py-24">
+    <section className="py-24" style={{ background: '#05061b', borderTop: '1px solid rgba(255,255,255,0.05)' }}>
       <div className="max-w-5xl mx-auto px-6">
-        <div className="text-center mb-14">
-          <h2 className="text-3xl font-bold text-slate-900 mb-4">Built on research, not hype.</h2>
-          <p className="text-slate-500 text-lg max-w-2xl mx-auto">
-            ClearSign&apos;s detection engine draws from peer-reviewed dark pattern taxonomies, regulatory
-            guidance documents, and real-world enforcement cases. We detect what regulators actually look for.
-          </p>
-        </div>
+        <p className="text-center text-xs font-semibold uppercase tracking-widest mb-12" style={{ color: 'rgba(255,255,255,0.2)', letterSpacing: '0.14em' }}>
+          Built on research, not hype.
+        </p>
         <div className="grid md:grid-cols-3 gap-6">
-          {stats.map((s) => (
-            <div key={s.value} className="bg-white rounded-xl p-8 text-center shadow-sm border border-slate-100">
-              <div className="text-4xl font-black text-teal-600 mb-2">{s.value}</div>
-              <div className="text-slate-500 text-sm leading-relaxed">{s.label}</div>
+          {stats.map(s => (
+            <div key={s.value} className="rounded-2xl p-8 text-center" style={glass}>
+              <div style={{
+                fontSize: '42px', fontWeight: 800, letterSpacing: '-0.03em', marginBottom: '6px',
+                background: 'linear-gradient(135deg, #2dd4bf, #38bdf8)',
+                WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text',
+              }}>{s.value}</div>
+              <div style={{ color: 'rgba(255,255,255,0.7)', fontWeight: 600, fontSize: '14px', marginBottom: '4px' }}>{s.label}</div>
+              <div style={{ color: 'rgba(255,255,255,0.25)', fontSize: '12px' }}>{s.sub}</div>
             </div>
           ))}
         </div>
@@ -425,159 +581,61 @@ function SocialProof() {
   )
 }
 
-// ─── Pricing Preview ──────────────────────────────────────────────────────────
-function PricingPreview() {
-  const plans = [
-    {
-      name: 'Free',
-      price: '$0',
-      period: '/month',
-      highlight: false,
-      features: ['5 scans per month', '1 page per scan', '3 of 7 detection categories', 'PDF report'],
-      cta: 'Get Started Free',
-      param: 'free',
-    },
-    {
-      name: 'Pro',
-      price: '$19',
-      period: '/month',
-      highlight: true,
-      badge: 'Most Popular',
-      features: ['Unlimited scans', '10 pages per scan', 'All 7 detection categories', 'PDF + shareable report links'],
-      cta: 'Get Pro',
-      param: 'pro',
-    },
-    {
-      name: 'Growth',
-      price: '$149',
-      period: '/month',
-      highlight: false,
-      features: ['50 deep scans per month', 'Full site crawl (up to 100 pages)', 'All 7 detection categories', 'Regulatory mapping (ACL, GDPR, DSA, FTC)', 'Priority email support'],
-      cta: 'Request Early Access',
-      param: 'growth',
-    },
-    {
-      name: 'Scale',
-      price: '$499',
-      period: '/month',
-      highlight: false,
-      features: ['Unlimited scans', 'Full site crawl (unlimited pages)', 'All categories + custom rules', 'API access', 'Dedicated compliance dashboard', 'Monthly compliance report'],
-      cta: 'Contact Us',
-      param: 'scale',
-    },
-  ]
+// ─── Pricing ──────────────────────────────────────────────────────────────────
+const PLANS = [
+  { name: 'Free', price: '$0', period: '/mo', features: ['5 scans/month', '1 page per scan', '3 of 7 categories', 'Trust score report'], cta: 'Get started', href: SCANNER_URL, highlight: false, badge: null },
+  { name: 'Pro', price: '$19', period: '/mo', features: ['Unlimited scans', '10 pages per scan', 'All 7 categories', 'Shareable report links'], cta: 'Get Pro', href: '/waitlist?plan=pro', highlight: true, badge: 'Most popular' },
+  { name: 'Growth', price: '$149', period: '/mo', features: ['50 deep scans/month', '100 pages per scan', 'Regulatory mapping (ACL, GDPR, DSA, FTC)', 'Priority support'], cta: 'Join waitlist', href: '/waitlist?plan=growth', highlight: false, badge: null },
+  { name: 'Scale', price: '$499', period: '/mo', features: ['Unlimited everything', 'API access', 'Compliance dashboard', 'SLA + dedicated support'], cta: 'Contact us', href: 'mailto:steve@thirdmirror.com.au', highlight: false, badge: null },
+]
 
+function Pricing() {
   return (
-    <section className="bg-white py-24">
+    <section id="pricing" className="py-28" style={{ background: '#030711', borderTop: '1px solid rgba(255,255,255,0.05)' }}>
       <div className="max-w-6xl mx-auto px-6">
         <div className="text-center mb-14">
-          <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">Simple, transparent pricing.</h2>
-          <p className="text-slate-500 text-lg">
-            <Link href="/pricing" className="text-teal-600 hover:underline">See full feature comparison →</Link>
-          </p>
+          <p className="text-xs font-semibold uppercase tracking-widest mb-4" style={{ color: 'rgba(94,234,212,0.55)', letterSpacing: '0.14em' }}>Pricing</p>
+          <h2 style={{ fontSize: 'clamp(28px, 4.5vw, 48px)', fontWeight: 700, letterSpacing: '-0.03em', color: 'white', lineHeight: 1.15 }}>Simple, transparent pricing.</h2>
+          <p style={{ color: 'rgba(255,255,255,0.35)', fontSize: '16px', marginTop: '12px' }}>No hidden fees. Cancel anytime. <Link href="/pricing" style={{ color: 'rgba(94,234,212,0.6)', textDecoration: 'none' }}>See full feature comparison →</Link></p>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 items-stretch">
-          {plans.map((plan) => (
-            <div
-              key={plan.name}
-              className={`rounded-xl p-7 flex flex-col border relative ${
-                plan.highlight
-                  ? 'bg-[#0F172A] border-teal-600 shadow-xl shadow-teal-900/20'
-                  : 'bg-white border-slate-200 shadow-sm'
-              }`}
-            >
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+          {PLANS.map(plan => (
+            <div key={plan.name} className="rounded-2xl p-6 flex flex-col relative transition-all duration-300"
+              style={plan.highlight
+                ? { background: 'rgba(13,148,136,0.12)', border: '1px solid rgba(13,148,136,0.35)', boxShadow: '0 0 40px rgba(13,148,136,0.15)', backdropFilter: 'blur(10px)' }
+                : glass}
+              onMouseEnter={e => { if (!plan.highlight) Object.assign((e.currentTarget as HTMLElement).style, glassHover) }}
+              onMouseLeave={e => { if (!plan.highlight) Object.assign((e.currentTarget as HTMLElement).style, glass) }}>
               {plan.badge && (
                 <div className="absolute -top-3 left-1/2 -translate-x-1/2">
-                  <span className="bg-teal-600 text-white text-xs font-semibold px-3 py-1 rounded-full">{plan.badge}</span>
+                  <span className="px-3 py-1 rounded-full text-xs font-semibold whitespace-nowrap"
+                    style={{ background: 'linear-gradient(135deg, #0d9488, #0891b2)', color: 'white', boxShadow: '0 0 12px rgba(13,148,136,0.4)' }}>
+                    {plan.badge}
+                  </span>
                 </div>
               )}
-              <div className={`text-sm font-semibold mb-3 ${plan.highlight ? 'text-teal-400' : 'text-slate-500'}`}>{plan.name}</div>
-              <div className={`text-4xl font-black mb-1 ${plan.highlight ? 'text-white' : 'text-slate-900'}`}>
-                {plan.price}
-                <span className={`text-base font-normal ${plan.highlight ? 'text-slate-400' : 'text-slate-400'}`}>{plan.period}</span>
+              <div style={{ color: plan.highlight ? 'rgba(94,234,212,0.8)' : 'rgba(255,255,255,0.35)', fontSize: '12px', fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '10px' }}>{plan.name}</div>
+              <div style={{ marginBottom: '6px' }}>
+                <span style={{ fontSize: '38px', fontWeight: 800, letterSpacing: '-0.03em', color: 'white' }}>{plan.price}</span>
+                <span style={{ color: 'rgba(255,255,255,0.3)', fontSize: '13px' }}>{plan.period}</span>
               </div>
-              <ul className="mt-5 space-y-2.5 flex-1 mb-7">
-                {plan.features.map((f) => (
-                  <li key={f} className={`flex items-start gap-2.5 text-sm ${plan.highlight ? 'text-slate-300' : 'text-slate-500'}`}>
-                    <span className={`mt-0.5 flex-shrink-0 text-teal-400`}>✓</span>
+              <ul className="space-y-2 flex-1 mt-5 mb-6">
+                {plan.features.map(f => (
+                  <li key={f} className="flex items-start gap-2.5" style={{ color: 'rgba(255,255,255,0.5)', fontSize: '13px' }}>
+                    <svg className="flex-shrink-0 mt-0.5" width="14" height="14" viewBox="0 0 16 16" fill="none">
+                      <path d="M3 8l3.5 3.5L13 4.5" stroke={plan.highlight ? 'rgba(45,212,191,0.8)' : 'rgba(255,255,255,0.3)'} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                    </svg>
                     {f}
                   </li>
                 ))}
               </ul>
-              <Link
-                href={`/waitlist?plan=${plan.param}`}
-                className={`block text-center font-semibold px-5 py-2.5 rounded-lg transition-colors text-sm ${
-                  plan.highlight
-                    ? 'bg-teal-600 hover:bg-teal-500 text-white'
-                    : 'border border-slate-300 hover:border-teal-600 hover:text-teal-600 text-slate-700'
-                }`}
-              >
+              <a href={plan.href} className="block text-center rounded-lg py-2.5 text-sm font-semibold transition-all"
+                style={plan.highlight
+                  ? { background: 'linear-gradient(135deg, #0d9488, #0891b2)', color: 'white', boxShadow: tealGlow, textDecoration: 'none' }
+                  : { background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)', color: 'rgba(255,255,255,0.65)', textDecoration: 'none' }}>
                 {plan.cta}
-              </Link>
-            </div>
-          ))}
-        </div>
-        <p className="text-center text-slate-400 text-sm mt-8">
-          Need enterprise pricing or custom deployment?{' '}
-          <a href="mailto:steve@thirdmirror.com.au" className="text-teal-600 hover:underline">Contact us</a>
-        </p>
-      </div>
-    </section>
-  )
-}
-
-// ─── FAQ ─────────────────────────────────────────────────────────────────────
-const faqs = [
-  {
-    q: 'How does ClearSign detect dark patterns?',
-    a: "ClearSign analyses your website's DOM structure, visual layout, copy, and interaction patterns against a library of known dark pattern categories. Our detection engine combines rule-based heuristics with NLP analysis to identify manipulative design at scale.",
-  },
-  {
-    q: 'Which regulations does ClearSign cover?',
-    a: "Currently: Australian Consumer Law, Privacy Act 1988, EU Digital Services Act, GDPR, and FTC Section 5 (US). We're tracking the Australian Unfair Trading Practices Bill (expected July 2027) and will add coverage as it's finalised.",
-  },
-  {
-    q: 'How is this different from an accessibility scanner?',
-    a: "Accessibility tools (like Axe or Stark) check for WCAG compliance — colour contrast, alt text, keyboard navigation. ClearSign checks for manipulative design — confirm-shaming, hidden costs, forced continuity, and patterns that exploit user psychology. They're complementary, not competing.",
-  },
-  {
-    q: 'Can ClearSign guarantee regulatory compliance?',
-    a: "No tool can guarantee compliance — that's ultimately a legal determination. ClearSign provides systematic, documented evidence that your team has audited for dark patterns. Think of it as a screening tool that strengthens your compliance posture, not a legal opinion.",
-  },
-  {
-    q: 'Is my data secure?',
-    a: "ClearSign only analyses publicly accessible pages. We don't access user accounts, store personal data, or require authentication to your systems. Scan results are encrypted at rest and in transit.",
-  },
-  {
-    q: 'When will ClearSign be available?',
-    a: "We're currently in private beta. Join the waitlist to get early access and help shape the product.",
-  },
-]
-
-function FAQ() {
-  const [open, setOpen] = useState<number | null>(null)
-
-  return (
-    <section className="bg-slate-50 py-24">
-      <div className="max-w-2xl mx-auto px-6">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl font-bold text-slate-900 mb-3">Frequently asked questions</h2>
-        </div>
-        <div className="space-y-3">
-          {faqs.map((faq, i) => (
-            <div key={i} className="bg-white rounded-xl border border-slate-100 shadow-sm overflow-hidden">
-              <button
-                onClick={() => setOpen(open === i ? null : i)}
-                className="w-full text-left px-6 py-5 flex items-center justify-between gap-4"
-              >
-                <span className="font-semibold text-slate-900 text-sm">{faq.q}</span>
-                <ChevronDown
-                  className={`w-4 h-4 text-slate-400 flex-shrink-0 transition-transform ${open === i ? 'rotate-180' : ''}`}
-                />
-              </button>
-              {open === i && (
-                <div className="px-6 pb-5 text-slate-500 text-sm leading-relaxed">{faq.a}</div>
-              )}
+              </a>
             </div>
           ))}
         </div>
@@ -586,32 +644,38 @@ function FAQ() {
   )
 }
 
-// ─── Final CTA ────────────────────────────────────────────────────────────────
-function FinalCTA() {
+// ─── CTA ──────────────────────────────────────────────────────────────────────
+function CTA() {
   return (
-    <section className="bg-[#0F172A] py-28">
-      <div className="max-w-3xl mx-auto px-6 text-center">
-        <h2 className="text-4xl md:text-5xl font-bold text-white mb-5 leading-tight">
-          Ready to find what you&apos;re missing?
+    <section className="relative py-32 overflow-hidden" style={{ background: '#05061b' }}>
+      <div className="absolute inset-0" style={{ background: 'radial-gradient(ellipse 70% 60% at 50% 50%, rgba(13,148,136,0.13) 0%, transparent 65%)' }} />
+      <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+        <div className="rounded-full" style={{ width: '500px', height: '500px', border: '1px solid rgba(255,255,255,0.04)' }} />
+        <div className="absolute rounded-full" style={{ width: '720px', height: '720px', border: '1px solid rgba(255,255,255,0.025)' }} />
+        <div className="absolute rounded-full" style={{ width: '960px', height: '960px', border: '1px solid rgba(255,255,255,0.015)' }} />
+      </div>
+      <div className="relative max-w-2xl mx-auto px-6 text-center">
+        <h2 style={{ fontSize: 'clamp(36px, 6vw, 60px)', fontWeight: 700, letterSpacing: '-0.035em', color: 'white', lineHeight: 1.1, marginBottom: '20px' }}>
+          Don&apos;t let UX become<br />a liability.
         </h2>
-        <p className="text-slate-300 text-lg mb-10 leading-relaxed">
-          Join the waitlist for early access to ClearSign. Be the first to audit your product for
-          dark patterns — before regulators do it for you.
+        <p style={{ color: 'rgba(255,255,255,0.42)', fontSize: '18px', lineHeight: 1.7, letterSpacing: '-0.01em', marginBottom: '36px' }}>
+          Spot dark patterns before your regulators do. Start scanning in minutes.
         </p>
-        <div className="flex flex-col sm:flex-row gap-4 justify-center">
-          <Link
-            href="/waitlist"
-            className="inline-flex items-center justify-center gap-2 bg-teal-600 hover:bg-teal-500 text-white font-semibold px-8 py-4 rounded-lg transition-colors text-base"
-          >
-            Request Early Access <ArrowRight className="w-4 h-4" />
-          </Link>
-          <a
-            href={PRODUCT_B2B}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center justify-center gap-2 border border-slate-600 hover:border-slate-400 text-slate-300 hover:text-white font-semibold px-8 py-4 rounded-lg transition-colors text-base"
-          >
-            Try the scanner <ExternalLink className="w-4 h-4" />
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
+          <a href={SCANNER_URL} target="_blank" rel="noopener noreferrer"
+            className="flex items-center gap-2 rounded-xl font-semibold transition-all"
+            style={{ background: 'linear-gradient(135deg, #0d9488, #0891b2)', color: 'white', padding: '16px 32px', fontSize: '15px', letterSpacing: '-0.01em', boxShadow: tealGlow, textDecoration: 'none' }}
+            onMouseEnter={e => { (e.currentTarget as HTMLElement).style.boxShadow = tealGlowHover }}
+            onMouseLeave={e => { (e.currentTarget as HTMLElement).style.boxShadow = tealGlow }}>
+            Launch the scanner
+            <svg width="15" height="15" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
+          </a>
+          <a href="/waitlist"
+            className="flex items-center rounded-xl font-semibold transition-all"
+            style={{ ...glass, color: 'rgba(255,255,255,0.7)', padding: '16px 32px', fontSize: '15px', letterSpacing: '-0.01em', textDecoration: 'none' }}
+            onMouseEnter={e => Object.assign((e.currentTarget as HTMLElement).style, glassHover)}
+            onMouseLeave={e => Object.assign((e.currentTarget as HTMLElement).style, glass)}>
+            Request early access
           </a>
         </div>
       </div>
@@ -622,31 +686,28 @@ function FinalCTA() {
 // ─── Footer ───────────────────────────────────────────────────────────────────
 function Footer() {
   return (
-    <footer className="bg-[#0F172A] border-t border-slate-800 py-12">
-      <div className="max-w-6xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-6">
-        <div className="flex items-center gap-2">
-          <Shield className="w-5 h-5 text-teal-400" />
-          <span className="text-white font-semibold">ClearSign</span>
-          <span className="text-slate-600 ml-2 text-sm">by Third Mirror PTY LTD · Built in Australia 🇦🇺</span>
+    <footer className="py-10" style={{ background: '#030711', borderTop: '1px solid rgba(255,255,255,0.06)' }}>
+      <div className="max-w-6xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-4">
+        <div className="flex items-center gap-2.5">
+          <div className="w-5 h-5 rounded flex items-center justify-center" style={{ background: 'linear-gradient(135deg, #14b8a6, #0891b2)' }}>
+            <svg width="10" height="10" viewBox="0 0 14 14" fill="none"><path d="M7 1L13 4V10L7 13L1 10V4L7 1Z" stroke="white" strokeWidth="1.6" fill="none" strokeLinejoin="round"/></svg>
+          </div>
+          <span style={{ color: 'rgba(255,255,255,0.5)', fontWeight: 500, fontSize: '13px' }}>ClearSign</span>
+          <span style={{ color: 'rgba(255,255,255,0.2)', fontSize: '13px' }}>by Third Mirror PTY LTD · Built in Australia 🇦🇺</span>
         </div>
-        <div className="flex items-center gap-6 text-slate-500 text-sm">
-          <Link href="/pricing" className="hover:text-white transition-colors">Pricing</Link>
-          <Link href="/waitlist" className="hover:text-white transition-colors">Waitlist</Link>
-          <Link href="/consumer" className="hover:text-white transition-colors">For consumers</Link>
-          <a href="mailto:steve@thirdmirror.com.au" className="hover:text-white transition-colors">Contact</a>
-          <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">
-            <Linkedin className="w-4 h-4" />
-          </a>
-          <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">
-            <Twitter className="w-4 h-4" />
-          </a>
+        <div className="flex gap-6">
+          {[['Pricing','/pricing'],['Waitlist','/waitlist'],['For consumers','/consumer'],['Contact','mailto:steve@thirdmirror.com.au']].map(([l,h]) => (
+            <a key={l} href={h} style={{ color: 'rgba(255,255,255,0.25)', fontSize: '13px', textDecoration: 'none' }}
+              onMouseEnter={e => (e.currentTarget.style.color = 'rgba(255,255,255,0.6)')}
+              onMouseLeave={e => (e.currentTarget.style.color = 'rgba(255,255,255,0.25)')}>{l}</a>
+          ))}
         </div>
       </div>
     </footer>
   )
 }
 
-// ─── Page ────────────────────────────────────────────────────────────────────
+// ─── Page ─────────────────────────────────────────────────────────────────────
 export default function HomePage() {
   return (
     <>
@@ -658,13 +719,11 @@ export default function HomePage() {
         <WhoItsFor />
         <WhatWeDetect />
         <RegulatoryContext />
-        <SocialProof />
-        <PricingPreview />
-        <FAQ />
-        <FinalCTA />
+        <Stats />
+        <Pricing />
+        <CTA />
       </main>
       <Footer />
     </>
   )
 }
-
