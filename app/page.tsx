@@ -9,7 +9,7 @@ import {
 } from 'lucide-react'
 
 // ─── Product URLs ────────────────────────────────────────────────────────────
-const PRODUCT_B2B = 'https://clearsign-ashy.vercel.app/'
+const PRODUCT_B2B = 'https://clearsign-ashy.vercel.app/b2b'
 const PRODUCT_CONSUMER = 'https://clearsign-ashy.vercel.app/consumer'
 
 // ─── Nav ─────────────────────────────────────────────────────────────────────
