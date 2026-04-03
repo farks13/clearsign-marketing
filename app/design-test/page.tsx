@@ -23,55 +23,113 @@ const tealGlowHover = '0 0 48px rgba(13,148,136,0.6), inset 0 1px 0 rgba(255,255
 // ─── Nav ─────────────────────────────────────────────────────────────────────
 function Nav() {
   const [scrolled, setScrolled] = useState(false)
+  const [mobileOpen, setMobileOpen] = useState(false)
+
   useEffect(() => {
     const fn = () => setScrolled(window.scrollY > 40)
     window.addEventListener('scroll', fn)
     return () => window.removeEventListener('scroll', fn)
   }, [])
 
+  const navLinks = [
+    ['How It Works', '#how-it-works'],
+    ["Who It's For", '#who-its-for'],
+    ['Pricing', '#pricing'],
+  ]
+
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 flex justify-center px-4 pt-4">
-      <nav className="w-full transition-all duration-500" style={{
-        maxWidth: scrolled ? '740px' : '1200px',
-        background: scrolled ? 'rgba(5,6,27,0.88)' : 'transparent',
-        backdropFilter: scrolled ? 'blur(14px)' : 'none',
-        borderRadius: scrolled ? '999px' : '0',
-        border: scrolled ? '1px solid rgba(255,255,255,0.09)' : 'none',
-        padding: scrolled ? '8px 24px' : '0',
-      }}>
-        <div className="flex items-center justify-between h-11">
-          <div className="flex items-center gap-2.5">
-            <div className="w-7 h-7 rounded-lg flex items-center justify-center flex-shrink-0"
-              style={{ background: 'linear-gradient(135deg, #14b8a6, #0891b2)' }}>
-              <svg width="13" height="13" viewBox="0 0 14 14" fill="none">
-                <path d="M7 1L13 4V10L7 13L1 10V4L7 1Z" stroke="white" strokeWidth="1.6" fill="none" strokeLinejoin="round"/>
-              </svg>
+    <>
+      <header className="fixed top-0 left-0 right-0 z-50 flex justify-center px-4 pt-4">
+        <nav className="w-full max-w-6xl transition-all duration-500" style={{
+          background: scrolled ? 'rgba(5,6,27,0.9)' : 'rgba(5,6,27,0.6)',
+          backdropFilter: 'blur(16px)',
+          borderRadius: '16px',
+          border: '1px solid rgba(255,255,255,0.08)',
+          padding: '0 20px',
+        }}>
+          <div className="flex items-center justify-between h-14">
+            {/* Logo */}
+            <div className="flex items-center gap-2.5 flex-shrink-0">
+              <div className="w-7 h-7 rounded-lg flex items-center justify-center"
+                style={{ background: 'linear-gradient(135deg, #14b8a6, #0891b2)' }}>
+                <svg width="13" height="13" viewBox="0 0 14 14" fill="none">
+                  <path d="M7 1L13 4V10L7 13L1 10V4L7 1Z" stroke="white" strokeWidth="1.6" fill="none" strokeLinejoin="round"/>
+                </svg>
+              </div>
+              <span style={{ color: 'white', fontWeight: 600, fontSize: '14px', letterSpacing: '-0.01em', whiteSpace: 'nowrap' }}>ClearSign</span>
             </div>
-            <span style={{ color: 'white', fontWeight: 600, fontSize: '14px', letterSpacing: '-0.01em' }}>ClearSign</span>
+
+            {/* Desktop links */}
+            <div className="hidden lg:flex items-center gap-6">
+              {navLinks.map(([l, h]) => (
+                <a key={l} href={h} style={{ color: 'rgba(255,255,255,0.5)', fontSize: '13px', fontWeight: 500, textDecoration: 'none', whiteSpace: 'nowrap' }}
+                  onMouseEnter={e => (e.currentTarget.style.color = 'white')}
+                  onMouseLeave={e => (e.currentTarget.style.color = 'rgba(255,255,255,0.5)')}>
+                  {l}
+                </a>
+              ))}
+              <div style={{ width: '1px', height: '14px', background: 'rgba(255,255,255,0.12)', flexShrink: 0 }} />
+              <a href="/consumer" style={{ color: 'rgba(255,255,255,0.35)', fontSize: '13px', fontWeight: 500, textDecoration: 'none', whiteSpace: 'nowrap' }}
+                onMouseEnter={e => (e.currentTarget.style.color = 'rgba(255,255,255,0.65)')}
+                onMouseLeave={e => (e.currentTarget.style.color = 'rgba(255,255,255,0.35)')}>
+                For consumers →
+              </a>
+            </div>
+
+            {/* Right side */}
+            <div className="flex items-center gap-3">
+              <a href="/waitlist" className="hidden sm:block"
+                style={{
+                  background: 'linear-gradient(135deg, #0d9488, #0891b2)',
+                  color: 'white', fontSize: '13px', fontWeight: 600,
+                  padding: '8px 16px', borderRadius: '999px', textDecoration: 'none',
+                  whiteSpace: 'nowrap', boxShadow: '0 0 18px rgba(13,148,136,0.35)',
+                }}
+                onMouseEnter={e => { (e.currentTarget as HTMLElement).style.boxShadow = '0 0 28px rgba(13,148,136,0.55)' }}
+                onMouseLeave={e => { (e.currentTarget as HTMLElement).style.boxShadow = '0 0 18px rgba(13,148,136,0.35)' }}>
+                Request early access
+              </a>
+
+              {/* Hamburger — mobile/tablet */}
+              <button
+                className="lg:hidden flex flex-col justify-center items-center w-9 h-9 rounded-lg gap-1.5"
+                style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)' }}
+                onClick={() => setMobileOpen(!mobileOpen)}
+                aria-label="Toggle menu"
+              >
+                <span className="block w-4 h-px transition-all" style={{ background: 'rgba(255,255,255,0.7)', transform: mobileOpen ? 'translateY(5px) rotate(45deg)' : 'none' }} />
+                <span className="block w-4 h-px transition-all" style={{ background: 'rgba(255,255,255,0.7)', opacity: mobileOpen ? 0 : 1 }} />
+                <span className="block w-4 h-px transition-all" style={{ background: 'rgba(255,255,255,0.7)', transform: mobileOpen ? 'translateY(-5px) rotate(-45deg)' : 'none' }} />
+              </button>
+            </div>
           </div>
-          <div className="hidden md:flex items-center gap-7">
-            {[['How It Works','#how-it-works'],["Who It's For",'#who-its-for'],['Pricing','#pricing']].map(([l,h]) => (
-              <a key={l} href={h} style={{ color: 'rgba(255,255,255,0.5)', fontSize: '13px', fontWeight: 500, textDecoration: 'none' }}
-                onMouseEnter={e => (e.currentTarget.style.color = 'white')}
-                onMouseLeave={e => (e.currentTarget.style.color = 'rgba(255,255,255,0.5)')}>{l}</a>
-            ))}
-            <div style={{ width: '1px', height: '14px', background: 'rgba(255,255,255,0.12)' }} />
-            <a href="/consumer" style={{ color: 'rgba(255,255,255,0.35)', fontSize: '13px', fontWeight: 500, textDecoration: 'none' }}
-              onMouseEnter={e => (e.currentTarget.style.color = 'rgba(255,255,255,0.65)')}
-              onMouseLeave={e => (e.currentTarget.style.color = 'rgba(255,255,255,0.35)')}>For consumers →</a>
-          </div>
-          <a href="/waitlist" style={{
-            background: 'linear-gradient(135deg, #0d9488, #0891b2)',
-            color: 'white', fontSize: '13px', fontWeight: 600,
-            padding: '8px 18px', borderRadius: '999px', textDecoration: 'none',
-            boxShadow: '0 0 18px rgba(13,148,136,0.35)',
-          }}
-            onMouseEnter={e => { (e.currentTarget as HTMLElement).style.boxShadow = '0 0 28px rgba(13,148,136,0.55)' }}
-            onMouseLeave={e => { (e.currentTarget as HTMLElement).style.boxShadow = '0 0 18px rgba(13,148,136,0.35)' }}
-          >Request early access</a>
-        </div>
-      </nav>
-    </header>
+
+          {/* Mobile dropdown */}
+          {mobileOpen && (
+            <div className="lg:hidden border-t pb-4" style={{ borderColor: 'rgba(255,255,255,0.07)', marginTop: '0' }}>
+              <div className="flex flex-col pt-3 gap-1">
+                {navLinks.map(([l, h]) => (
+                  <a key={l} href={h} onClick={() => setMobileOpen(false)}
+                    style={{ color: 'rgba(255,255,255,0.6)', fontSize: '14px', fontWeight: 500, textDecoration: 'none', padding: '10px 4px', display: 'block' }}
+                    onMouseEnter={e => (e.currentTarget.style.color = 'white')}
+                    onMouseLeave={e => (e.currentTarget.style.color = 'rgba(255,255,255,0.6)')}>
+                    {l}
+                  </a>
+                ))}
+                <a href="/consumer" onClick={() => setMobileOpen(false)}
+                  style={{ color: 'rgba(255,255,255,0.35)', fontSize: '14px', fontWeight: 500, textDecoration: 'none', padding: '10px 4px', display: 'block' }}>
+                  For consumers →
+                </a>
+                <a href="/waitlist"
+                  style={{ display: 'block', marginTop: '8px', background: 'linear-gradient(135deg, #0d9488, #0891b2)', color: 'white', fontSize: '14px', fontWeight: 600, padding: '12px 16px', borderRadius: '10px', textDecoration: 'none', textAlign: 'center' }}>
+                  Request early access
+                </a>
+              </div>
+            </div>
+          )}
+        </nav>
+      </header>
+    </>
   )
 }
 
@@ -140,48 +198,6 @@ function Hero() {
             </span>
           ))}
         </div>
-      </div>
-
-      {/* Hero product mockup */}
-      <div className="relative max-w-5xl mx-auto px-6 pb-0" style={{ marginTop: '-20px' }}>
-        {/* Glow behind the screen */}
-        <div className="absolute inset-x-0 top-0 h-40 pointer-events-none" style={{
-          background: 'radial-gradient(ellipse 60% 100% at 50% 0%, rgba(13,148,136,0.18) 0%, transparent 80%)',
-        }} />
-        {/* Browser chrome frame */}
-        <div className="relative rounded-2xl overflow-hidden" style={{
-          border: '1px solid rgba(255,255,255,0.1)',
-          boxShadow: '0 40px 80px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.05)',
-          background: '#0d1117',
-        }}>
-          {/* Browser bar */}
-          <div className="flex items-center gap-2 px-4 py-3" style={{ background: 'rgba(255,255,255,0.04)', borderBottom: '1px solid rgba(255,255,255,0.07)' }}>
-            <div className="flex gap-1.5">
-              <div className="w-3 h-3 rounded-full" style={{ background: 'rgba(255,255,255,0.12)' }} />
-              <div className="w-3 h-3 rounded-full" style={{ background: 'rgba(255,255,255,0.12)' }} />
-              <div className="w-3 h-3 rounded-full" style={{ background: 'rgba(255,255,255,0.12)' }} />
-            </div>
-            <div className="flex-1 mx-4 rounded-md px-3 py-1 text-xs" style={{ background: 'rgba(255,255,255,0.06)', color: 'rgba(255,255,255,0.3)', maxWidth: '340px', margin: '0 auto' }}>
-              clearsign-ashy.vercel.app
-            </div>
-          </div>
-          {/* Screen placeholder */}
-          <div className="flex items-center justify-center" style={{ height: '420px', background: 'linear-gradient(180deg, #0d1117 0%, #070b14 100%)' }}>
-            <div className="text-center">
-              <div className="w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-4" style={{ background: 'rgba(13,148,136,0.15)', border: '1px solid rgba(13,148,136,0.25)' }}>
-                <svg width="28" height="28" viewBox="0 0 14 14" fill="none">
-                  <path d="M7 1L13 4V10L7 13L1 10V4L7 1Z" stroke="rgba(45,212,191,0.7)" strokeWidth="1.2" fill="none" strokeLinejoin="round"/>
-                </svg>
-              </div>
-              <p style={{ color: 'rgba(255,255,255,0.2)', fontSize: '13px', fontWeight: 500 }}>Product screenshot</p>
-              <p style={{ color: 'rgba(255,255,255,0.1)', fontSize: '12px', marginTop: '4px' }}>B2B scanner · coming soon</p>
-            </div>
-          </div>
-        </div>
-        {/* Fade to next section */}
-        <div className="absolute inset-x-0 bottom-0 h-32 pointer-events-none" style={{
-          background: 'linear-gradient(to bottom, transparent, #05061b)',
-        }} />
       </div>
     </section>
   )
