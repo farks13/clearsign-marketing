@@ -452,16 +452,123 @@ function WhoItsFor() {
 
 // ─── What We Detect ───────────────────────────────────────────────────────────
 const CATEGORIES = [
-  { icon: '⏱', name: 'Urgency & Pressure', desc: 'Fake countdown timers, manufactured scarcity, and "limited time" claims designed to bypass rational decision-making.' },
-  { icon: '💸', name: 'Hidden Costs', desc: 'Drip pricing, pre-ticked add-ons, virtual currencies, and fees revealed only at the final step of checkout.' },
-  { icon: '🚫', name: 'Obstruction', desc: 'Cancellation flows designed to exhaust you — no cancel button, call-to-cancel, confirm-shaming, and hidden unsubscribe links.' },
-  { icon: '👁', name: 'Misdirection', desc: 'CTA prominence tricks, disguised ads, trick questions, and fake progress bars that steer users toward unintended choices.' },
-  { icon: '⭐', name: 'Social Proof', desc: "Fake reviews, manufactured popularity signals, and 'X people viewing this' claims that can't be verified." },
-  { icon: '🔒', name: 'Privacy', desc: 'Pre-selected data sharing, dark cookie consent patterns, obscured privacy settings, and permission overreach.' },
-  { icon: '🔄', name: 'Subscription Traps', desc: 'Trial-to-paid charges without clear warnings, buried subscription terms, and no self-serve cancellation path.' },
+  {
+    icon: '⏱', name: 'Urgency & Pressure',
+    desc: 'Fake countdown timers, manufactured scarcity, and "limited time" claims designed to bypass rational decision-making.',
+    impact: 'Artificial urgency bypasses the brain\'s deliberate decision-making system — pushing users into purchases they wouldn\'t otherwise make. ACCC\'s 2025 Black Friday sweep found countdown timers and "limited stock" claims to be among the most common manipulative tactics used by Australian retailers.',
+    examples: ['Countdown timers that reset on page reload', '"Only 3 left!" on items with unlimited stock', '"This price expires in 10 minutes" on static pricing', 'Booking sites showing "X people viewing this right now"'],
+    law: 'Prohibited under Australian Consumer Law as misleading conduct. ACCC swept online retailers in Black Friday 2025 specifically targeting these tactics.',
+  },
+  {
+    icon: '💸', name: 'Hidden Costs',
+    desc: 'Drip pricing, pre-ticked add-ons, virtual currencies, and fees revealed only at the final step of checkout.',
+    impact: 'Drip pricing increases the final price consumers pay by 20–30% on average compared to what they saw at the start of the purchase flow. By the time fees appear, users are already invested — a psychological effect called sunk cost bias makes them far more likely to complete the purchase.',
+    examples: ['Booking fees, service charges, and "convenience fees" revealed at checkout', 'Pre-ticked insurance, warranties, or add-ons', 'Virtual currencies that obscure real-money value (gems, coins, credits)', 'GST shown separately to make the headline price look lower'],
+    law: 'Drip pricing is explicitly targeted by Australia\'s Unfair Trading Practices Bill. The ACCC\'s 2025 enforcement priorities include hidden fee disclosure.',
+  },
+  {
+    icon: '🚫', name: 'Obstruction',
+    desc: 'Cancellation flows designed to exhaust you — no cancel button, call-to-cancel, confirm-shaming, and hidden unsubscribe links.',
+    impact: 'Deliberately difficult cancellation flows cause consumers to remain subscribed for months beyond their intent. Research shows 42% of consumers have paid for a subscription they forgot they had — and dark cancellation flows are the primary driver. ACCC\'s 2025 case against JustAnswer centred on exactly this pattern.',
+    examples: ['No self-serve cancel button — must call, email, or chat', 'Multi-step cancellation with repeated "are you sure?" screens', 'Cancellation buried in account settings under misleading labels', '"Pause" offered before cancellation to create friction'],
+    law: 'Obstruction is a named category in Australia\'s Unfair Trading Practices Bill exposure draft. The FTC\'s "Click to Cancel" rule (US) now mandates cancellation must be as easy as sign-up.',
+  },
+  {
+    icon: '👁', name: 'Misdirection',
+    desc: 'CTA prominence tricks, disguised ads, trick questions, and fake progress bars that steer users toward unintended choices.',
+    impact: 'Visual hierarchy manipulation can shift user choices by 40% or more — without users realising they\'ve been nudged. Disguised advertising erodes trust in digital content broadly, and trick questions (especially in opt-in/opt-out consent flows) have been found to produce systematically invalid consent under GDPR and Privacy Act frameworks.',
+    examples: ['"Accept all" button prominent, "manage preferences" in grey fine print', 'Ads styled to look like organic search results', 'Double-negative checkbox language: "Untick to not receive emails"', 'Fake progress bars that pressure users to complete flows'],
+    law: 'Misdirection in consent flows produces invalid consent under the Privacy Act 1988. The EU DSA explicitly prohibits interface design that steers users against their interests.',
+  },
+  {
+    icon: '⭐', name: 'Social Proof',
+    desc: "Fake reviews, manufactured popularity signals, and 'X people viewing this' claims that can't be verified.",
+    impact: 'Fabricated social proof distorts consumer decision-making at scale. The ACCC estimates fake reviews influence AU$1B+ in Australian purchasing decisions annually. "X people are viewing this" claims have been found to be entirely fabricated on major travel and retail platforms — with no relationship to actual user behaviour.',
+    examples: ['"★★★★★ 2,847 reviews" with no verification source', '"12 people bought this in the last hour"', 'Review scores that include only paid/incentivised reviews', '"Bestseller" or "#1 rated" labels with no qualifying criteria'],
+    law: 'Fake reviews constitute misleading conduct under the ACL. The ACCC has taken action against businesses using fabricated testimonials and undisclosed paid reviews.',
+  },
+  {
+    icon: '🔒', name: 'Privacy',
+    desc: 'Pre-selected data sharing, dark cookie consent patterns, obscured privacy settings, and permission overreach.',
+    impact: 'Privacy dark patterns produce consent that is legally invalid under both the Privacy Act 1988 and GDPR. A 2023 study found that 95% of cookie consent banners on Australian websites used at least one dark pattern — defaulting to "accept all", hiding reject options, or making rejection deliberately difficult.',
+    examples: ['Cookie banners with no "Reject All" option', 'Marketing opt-in pre-ticked by default', 'Privacy settings buried five menus deep under misleading labels', 'Apps requesting location/contacts access unrelated to core function'],
+    law: 'Consent obtained via dark patterns is invalid under Australia\'s Privacy Act 1988. The same principle applies under GDPR. The OAIC is actively reviewing consent practices.',
+  },
+  {
+    icon: '🔄', name: 'Subscription Traps',
+    desc: 'Trial-to-paid charges without clear warnings, buried subscription terms, and no self-serve cancellation path.',
+    impact: 'Subscription traps are the #1 consumer complaint category received by the ACCC. Australian consumers lose an estimated $2.5B annually to unwanted subscriptions — driven primarily by unclear trial terms, missing pre-charge reminders, and deliberately difficult cancellation. The ACCC\'s 2026–27 enforcement priorities name subscription traps explicitly.',
+    examples: ['Free trials that auto-convert with no reminder email before charge', 'Annual subscription price buried below the monthly headline price', 'No confirmation email listing subscription terms post-signup', 'Price increases applied without explicit notification'],
+    law: 'Subscription traps are the headline target of Australia\'s Unfair Trading Practices Bill. The ACCC named them a 2026–27 enforcement priority. In the US, the FTC\'s ROSCA rules require clear disclosure before charging.',
+  },
 ]
 
+function PatternModal({ cat, onClose }: { cat: typeof CATEGORIES[0], onClose: () => void }) {
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => { if (e.key === 'Escape') onClose() }
+    document.addEventListener('keydown', handler)
+    document.body.style.overflow = 'hidden'
+    return () => { document.removeEventListener('keydown', handler); document.body.style.overflow = '' }
+  }, [onClose])
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4"
+      style={{ background: 'rgba(0,0,0,0.7)', backdropFilter: 'blur(8px)' }}
+      onClick={onClose}>
+      <div className="relative w-full max-w-lg max-h-[85vh] overflow-y-auto rounded-3xl"
+        style={{ background: '#0d1117', border: '1px solid rgba(255,255,255,0.1)', boxShadow: '0 32px 80px rgba(0,0,0,0.6)' }}
+        onClick={e => e.stopPropagation()}>
+        {/* Header */}
+        <div className="sticky top-0 flex items-start justify-between p-7 pb-5" style={{ background: '#0d1117', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
+          <div>
+            <div style={{ fontSize: '26px', marginBottom: '8px' }}>{cat.icon}</div>
+            <h3 style={{ color: 'white', fontWeight: 700, fontSize: '20px', letterSpacing: '-0.02em', lineHeight: 1.2 }}>{cat.name}</h3>
+          </div>
+          <button onClick={onClose} style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px', color: 'rgba(255,255,255,0.5)', cursor: 'pointer', padding: '6px 10px', fontSize: '16px', lineHeight: 1, flexShrink: 0, marginLeft: '12px' }}>✕</button>
+        </div>
+
+        <div className="p-7 space-y-6">
+          {/* Impact */}
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-widest mb-3" style={{ color: 'rgba(94,234,212,0.55)', letterSpacing: '0.12em' }}>Consumer impact</p>
+            <p style={{ color: 'rgba(255,255,255,0.65)', fontSize: '14px', lineHeight: 1.75 }}>{cat.impact}</p>
+          </div>
+
+          {/* Examples */}
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-widest mb-3" style={{ color: 'rgba(94,234,212,0.55)', letterSpacing: '0.12em' }}>Common examples</p>
+            <ul className="space-y-2">
+              {cat.examples.map(ex => (
+                <li key={ex} className="flex items-start gap-2.5" style={{ color: 'rgba(255,255,255,0.5)', fontSize: '13px', lineHeight: 1.6 }}>
+                  <span style={{ color: 'rgba(45,212,191,0.6)', marginTop: '3px', flexShrink: 0 }}>→</span>
+                  {ex}
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Law */}
+          <div className="rounded-2xl p-5" style={{ background: 'rgba(13,148,136,0.08)', border: '1px solid rgba(13,148,136,0.18)' }}>
+            <p className="text-xs font-semibold uppercase tracking-widest mb-2" style={{ color: 'rgba(94,234,212,0.55)', letterSpacing: '0.12em' }}>Regulatory position 🇦🇺</p>
+            <p style={{ color: 'rgba(255,255,255,0.55)', fontSize: '13px', lineHeight: 1.7 }}>{cat.law}</p>
+          </div>
+
+          <a href="/report"
+            className="flex items-center justify-center gap-2 rounded-xl font-semibold transition-all"
+            style={{ background: 'linear-gradient(135deg, #0d9488, #0891b2)', color: 'white', padding: '12px 20px', fontSize: '13px', textDecoration: 'none', boxShadow: tealGlow }}
+            onMouseEnter={e => { (e.currentTarget as HTMLElement).style.boxShadow = tealGlowHover }}
+            onMouseLeave={e => { (e.currentTarget as HTMLElement).style.boxShadow = tealGlow }}>
+            Seen this pattern? Report it →
+          </a>
+        </div>
+      </div>
+    </div>
+  )
+}
+
 function WhatWeDetect() {
+  const [active, setActive] = useState<typeof CATEGORIES[0] | null>(null)
+
   return (
     <section className="py-28" style={{ background: '#05061b', borderTop: '1px solid rgba(255,255,255,0.05)' }}>
       <div className="max-w-6xl mx-auto px-6">
@@ -474,13 +581,15 @@ function WhatWeDetect() {
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
           {CATEGORIES.map((c, i) => (
             <div key={c.name}
-              className={`rounded-2xl p-6 transition-all duration-300 ${i === 6 ? 'md:col-span-2 lg:col-span-1' : ''}`}
+              className={`rounded-2xl p-6 transition-all duration-300 cursor-pointer ${i === 6 ? 'md:col-span-2 lg:col-span-1' : ''}`}
               style={glass}
+              onClick={() => setActive(c)}
               onMouseEnter={e => Object.assign((e.currentTarget as HTMLElement).style, glassHover)}
               onMouseLeave={e => Object.assign((e.currentTarget as HTMLElement).style, glass)}>
               <div style={{ fontSize: '22px', marginBottom: '12px' }}>{c.icon}</div>
               <h3 style={{ color: 'white', fontWeight: 600, fontSize: '15px', letterSpacing: '-0.01em', marginBottom: '8px' }}>{c.name}</h3>
               <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: '13px', lineHeight: 1.7 }}>{c.desc}</p>
+              <p style={{ color: 'rgba(94,234,212,0.45)', fontSize: '11px', fontWeight: 600, letterSpacing: '0.04em', marginTop: '14px' }}>Learn more →</p>
             </div>
           ))}
         </div>
@@ -488,6 +597,7 @@ function WhatWeDetect() {
           26 individual patterns detected across 7 categories — with more on the roadmap.
         </p>
       </div>
+      {active && <PatternModal cat={active} onClose={() => setActive(null)} />}
     </section>
   )
 }

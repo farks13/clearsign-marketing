@@ -188,15 +188,124 @@ function Hero() {
 
 // ─── What We Check ────────────────────────────────────────────────────────────
 const PATTERNS = [
-  { icon: '⏱', name: 'Fake urgency', example: '"Only 2 left!" or "Offer expires in 10:00"', body: "That countdown timer probably resets the moment it hits zero. We check whether urgency claims change between page loads." },
-  { icon: '💸', name: 'Hidden charges', example: 'Fees added at the last step of checkout', body: "Drip pricing and pre-ticked add-ons inflate the final price after you're already committed. We flag anything that changes the total unexpectedly." },
-  { icon: '🔄', name: 'Subscription traps', example: 'Free trial → auto-charge without a clear warning', body: "Trial terms buried in fine print, no reminder before you're charged, and cancellation that requires a phone call. We surface all of it." },
-  { icon: '🔒', name: 'Data grabs', example: 'Pre-ticked marketing consent, vague cookie banners', body: "Consent that's on by default, cookie banners with no 'Reject All', and privacy settings buried five menus deep." },
-  { icon: '🚫', name: 'Hard to cancel', example: 'No cancel button — call us to cancel', body: "Some sites make signing up one click but cancelling require a phone call, a 'save' attempt, and three confirmation screens." },
-  { icon: '👁', name: 'Visual tricks', example: '"No thanks, I hate saving money"', body: 'Confirm-shaming, misleading button designs, and disguised ads that look like genuine results or recommendations.' },
+  {
+    icon: '⏱', name: 'Fake urgency', example: '"Only 2 left!" or "Offer expires in 10:00"',
+    body: "That countdown timer probably resets the moment it hits zero. We check whether urgency claims change between page loads.",
+    impact: "Fake urgency hijacks your brain's fear-of-missing-out response — pushing you into snap decisions you wouldn't make with more time. The ACCC's 2025 Black Friday sweep found countdown timers and \"limited stock\" claims to be among the most common manipulative tactics used by Australian online retailers.",
+    what_to_do: ['Refresh the page — if the timer resets, it\'s fake', 'Search the same product on other sites before committing', 'If it\'s "limited stock", check back in a few days', 'Take screenshots if you think a claim is false — it may be reportable'],
+    your_rights: 'Under Australian Consumer Law, businesses cannot make false or misleading claims about scarcity or time limits. You can report fake urgency claims to the ACCC at accc.gov.au.',
+  },
+  {
+    icon: '💸', name: 'Hidden charges', example: 'Fees added at the last step of checkout',
+    body: "Drip pricing and pre-ticked add-ons inflate the final price after you're already committed. We flag anything that changes the total unexpectedly.",
+    impact: "Hidden fees increase what you actually pay by 20–30% on average compared to the advertised price. Businesses rely on the fact that by the time you see the real total, you've already spent time on the purchase and feel committed. This is called 'drip pricing' and it's one of the ACCC's top enforcement priorities.",
+    what_to_do: ['Always check the final total before entering card details', 'Look for pre-ticked extras — insurance, donations, warranties', 'Compare the checkout price to the advertised price', 'If the total is different to what was advertised, you may be entitled to a refund'],
+    your_rights: 'Drip pricing is explicitly targeted by Australia\'s Unfair Trading Practices Bill. If a business charges more than the advertised price, you can dispute the charge with your bank or report to the ACCC.',
+  },
+  {
+    icon: '🔄', name: 'Subscription traps', example: 'Free trial → auto-charge without a clear warning',
+    body: "Trial terms buried in fine print, no reminder before you're charged, and cancellation that requires a phone call. We surface all of it.",
+    impact: "Australians lose an estimated $2.5 billion a year to unwanted subscriptions — driven by unclear trial terms, missing pre-charge reminders, and deliberately difficult cancellation. Subscription traps are the #1 consumer complaint the ACCC receives, and a named enforcement priority for 2026–27.",
+    what_to_do: ['Before signing up for a free trial, find the cancellation page first', 'Set a calendar reminder 2 days before the trial ends', 'Use a virtual card with a spending limit for trials', 'Check your bank statements monthly for recurring charges you don\'t recognise'],
+    your_rights: 'Australia\'s Unfair Trading Practices Bill specifically targets subscription traps. If you were charged without adequate warning, contact your bank to dispute the charge. You can also file a complaint with the ACCC.',
+  },
+  {
+    icon: '🔒', name: 'Data grabs', example: 'Pre-ticked marketing consent, vague cookie banners',
+    body: "Consent that's on by default, cookie banners with no 'Reject All', and privacy settings buried five menus deep.",
+    impact: "A 2023 audit found 95% of Australian websites used at least one privacy dark pattern — defaulting to 'accept all', hiding reject options, or making refusal deliberately difficult. Consent obtained through these tactics is legally invalid under the Privacy Act 1988, but most consumers don't know they have the right to refuse.",
+    what_to_do: ['Look for "Reject All" or "Manage Preferences" on cookie banners — it\'s usually there but small', 'Uncheck pre-ticked marketing boxes before submitting any form', 'Review privacy settings after signing up — look for data sharing options that defaulted to on', 'Use a browser extension that automatically rejects non-essential cookies'],
+    your_rights: 'Under the Privacy Act 1988, your consent must be freely given, specific, informed, and unambiguous. Pre-ticked boxes don\'t meet this standard. You have the right to access and correct your personal data held by any Australian business.',
+  },
+  {
+    icon: '🚫', name: 'Hard to cancel', example: 'No cancel button — call us to cancel',
+    body: "Some sites make signing up one click but cancelling require a phone call, a 'save' attempt, and three confirmation screens.",
+    impact: "The deliberate mismatch between easy sign-up and difficult cancellation keeps consumers subscribed and paying long after they intended to stop. Research shows 42% of consumers have paid for a subscription they forgot they had — and dark cancellation flows are the primary driver. The ACCC's 2025 case against JustAnswer centred exactly on this tactic.",
+    what_to_do: ['Before signing up, search "[service name] how to cancel" to know what you\'re getting into', 'If you can\'t find a cancel button, contact support in writing so you have a paper trail', 'If a business refuses to cancel despite your request, dispute the charge with your bank', 'Report companies that make cancellation unreasonably difficult to the ACCC'],
+    your_rights: 'The Unfair Trading Practices Bill will require cancellation to be as easy as sign-up. Currently, if a business makes cancellation unreasonably difficult, it may constitute unconscionable conduct under the ACL. You can seek a refund through your bank or the relevant ombudsman.',
+  },
+  {
+    icon: '👁', name: 'Visual tricks', example: '"No thanks, I hate saving money"',
+    body: 'Confirm-shaming, misleading button designs, and disguised ads that look like genuine results or recommendations.',
+    impact: "Visual manipulation can shift user choices by 40% or more — without users realising they\'ve been influenced. Confirm-shaming (making the 'no' option feel shameful or stupid) is particularly effective because it exploits social comparison instincts. Disguised advertising erodes trust in digital content broadly, and misleading button designs have been found to produce invalid consent in consent flows.",
+    what_to_do: ['Read both options before clicking — don\'t just click the prominent button', 'If a "no thanks" option is written to make you feel bad, that\'s intentional design', 'Check whether results marked "sponsored" look identical to organic results', 'Look for small print near prominent buttons that changes what you\'re agreeing to'],
+    your_rights: 'Misleading visual design that causes you to make a purchase you didn\'t intend can constitute misleading conduct under the ACL. Disguised advertising must be clearly labelled — the ACCC has taken action against businesses that failed to disclose sponsored content.',
+  },
 ]
 
+function ConsumerModal({ pattern, onClose }: { pattern: typeof PATTERNS[0], onClose: () => void }) {
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => { if (e.key === 'Escape') onClose() }
+    document.addEventListener('keydown', handler)
+    document.body.style.overflow = 'hidden'
+    return () => { document.removeEventListener('keydown', handler); document.body.style.overflow = '' }
+  }, [onClose])
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4"
+      style={{ background: 'rgba(0,0,0,0.75)', backdropFilter: 'blur(8px)' }}
+      onClick={onClose}>
+      <div className="relative w-full max-w-lg max-h-[85vh] overflow-y-auto rounded-3xl"
+        style={{ background: '#0d1117', border: '1px solid rgba(255,255,255,0.1)', boxShadow: '0 32px 80px rgba(0,0,0,0.6)' }}
+        onClick={e => e.stopPropagation()}>
+        {/* Header */}
+        <div className="sticky top-0 flex items-start justify-between p-7 pb-5" style={{ background: '#0d1117', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
+          <div>
+            <div style={{ fontSize: '26px', marginBottom: '8px' }}>{pattern.icon}</div>
+            <h3 style={{ color: 'white', fontWeight: 700, fontSize: '20px', letterSpacing: '-0.02em', lineHeight: 1.2 }}>{pattern.name}</h3>
+            <p style={{ color: 'rgba(94,234,212,0.65)', fontSize: '12px', fontStyle: 'italic', marginTop: '4px', background: 'rgba(13,148,136,0.08)', padding: '3px 8px', borderRadius: '6px', display: 'inline-block' }}>{pattern.example}</p>
+          </div>
+          <button onClick={onClose} style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px', color: 'rgba(255,255,255,0.5)', cursor: 'pointer', padding: '6px 10px', fontSize: '16px', lineHeight: 1, flexShrink: 0, marginLeft: '12px' }}>✕</button>
+        </div>
+
+        <div className="p-7 space-y-6">
+          {/* Impact */}
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-widest mb-3" style={{ color: 'rgba(94,234,212,0.55)', letterSpacing: '0.12em' }}>Why it matters</p>
+            <p style={{ color: 'rgba(255,255,255,0.62)', fontSize: '14px', lineHeight: 1.75 }}>{pattern.impact}</p>
+          </div>
+
+          {/* What to do */}
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-widest mb-3" style={{ color: 'rgba(94,234,212,0.55)', letterSpacing: '0.12em' }}>What you can do</p>
+            <ul className="space-y-2.5">
+              {pattern.what_to_do.map(tip => (
+                <li key={tip} className="flex items-start gap-2.5" style={{ color: 'rgba(255,255,255,0.5)', fontSize: '13px', lineHeight: 1.6 }}>
+                  <span style={{ color: 'rgba(45,212,191,0.6)', marginTop: '3px', flexShrink: 0 }}>✓</span>
+                  {tip}
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Rights */}
+          <div className="rounded-2xl p-5" style={{ background: 'rgba(13,148,136,0.08)', border: '1px solid rgba(13,148,136,0.18)' }}>
+            <p className="text-xs font-semibold uppercase tracking-widest mb-2" style={{ color: 'rgba(94,234,212,0.55)', letterSpacing: '0.12em' }}>Your rights 🇦🇺</p>
+            <p style={{ color: 'rgba(255,255,255,0.55)', fontSize: '13px', lineHeight: 1.7 }}>{pattern.your_rights}</p>
+          </div>
+
+          <div className="flex gap-3">
+            <a href={SCANNER_URL}
+              className="flex-1 flex items-center justify-center gap-1.5 rounded-xl font-semibold transition-all"
+              style={{ background: 'linear-gradient(135deg, #0d9488, #0891b2)', color: 'white', padding: '12px 16px', fontSize: '13px', textDecoration: 'none', boxShadow: tealGlow }}
+              onMouseEnter={e => { (e.currentTarget as HTMLElement).style.boxShadow = tealGlowHover }}
+              onMouseLeave={e => { (e.currentTarget as HTMLElement).style.boxShadow = tealGlow }}>
+              Check a website →
+            </a>
+            <a href="/report"
+              className="flex-1 flex items-center justify-center rounded-xl font-semibold"
+              style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', color: 'rgba(255,255,255,0.6)', padding: '12px 16px', fontSize: '13px', textDecoration: 'none' }}>
+              Report this pattern
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
+
 function WhatWeCheck() {
+  const [active, setActive] = useState<typeof PATTERNS[0] | null>(null)
+
   return (
     <section id="what-we-check" className="py-28" style={{ background: '#030711', borderTop: '1px solid rgba(255,255,255,0.05)' }}>
       <div className="max-w-6xl mx-auto px-6">
@@ -211,17 +320,20 @@ function WhatWeCheck() {
         </div>
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
           {PATTERNS.map(p => (
-            <div key={p.name} className="rounded-2xl p-6 transition-all duration-300" style={glass}
+            <div key={p.name} className="rounded-2xl p-6 transition-all duration-300 cursor-pointer" style={glass}
+              onClick={() => setActive(p)}
               onMouseEnter={e => Object.assign((e.currentTarget as HTMLElement).style, glassHover)}
               onMouseLeave={e => Object.assign((e.currentTarget as HTMLElement).style, glass)}>
               <div style={{ fontSize: '22px', marginBottom: '12px' }}>{p.icon}</div>
               <h3 style={{ color: 'white', fontWeight: 600, fontSize: '15px', letterSpacing: '-0.01em', marginBottom: '6px' }}>{p.name}</h3>
               <p style={{ color: 'rgba(94,234,212,0.6)', fontSize: '12px', fontStyle: 'italic', marginBottom: '10px', background: 'rgba(13,148,136,0.08)', padding: '4px 8px', borderRadius: '6px', display: 'inline-block' }}>{p.example}</p>
               <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: '13px', lineHeight: 1.7 }}>{p.body}</p>
+              <p style={{ color: 'rgba(94,234,212,0.45)', fontSize: '11px', fontWeight: 600, letterSpacing: '0.04em', marginTop: '14px' }}>What you can do →</p>
             </div>
           ))}
         </div>
       </div>
+      {active && <ConsumerModal pattern={active} onClose={() => setActive(null)} />}
     </section>
   )
 }
