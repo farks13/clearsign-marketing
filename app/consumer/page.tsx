@@ -36,6 +36,7 @@ function Nav() {
     ['How It Works', '#how-it-works'],
     ['What We Check', '#what-we-check'],
     ['Pricing', '#pricing'],
+    ['Report a pattern', '/report'],
   ]
 
   return (

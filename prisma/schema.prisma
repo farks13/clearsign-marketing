@@ -25,6 +25,18 @@ model Scan {
   updatedAt      DateTime  @updatedAt
 }
 
+model Report {
+  id           String   @id @default(uuid())
+  site         String
+  referenceUrl String?
+  intent       String
+  description  String
+  category     String?
+  impact       String[]
+  email        String?
+  createdAt    DateTime @default(now())
+}
+
 model WaitlistEntry {
   id          String   @id @default(uuid())
   email       String
