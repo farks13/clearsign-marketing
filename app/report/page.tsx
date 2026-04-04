@@ -159,14 +159,14 @@ export default function ReportPage() {
               Anonymous by default
             </div>
             <h1 style={{ fontSize: 'clamp(36px, 6vw, 60px)', fontWeight: 700, letterSpacing: '-0.035em', lineHeight: 1.1, color: 'white', marginBottom: '18px' }}>
-              Seen something{' '}
+              Report a{' '}
               <span style={{
                 background: 'linear-gradient(125deg, #2dd4bf 0%, #38bdf8 50%, #818cf8 100%)',
                 WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text',
-              }}>dodgy?</span>
+              }}>dark pattern.</span>
             </h1>
             <p style={{ fontSize: '17px', lineHeight: 1.7, color: 'rgba(255,255,255,0.45)', marginBottom: '0' }}>
-              Report a dark pattern you&apos;ve encountered. Every submission helps build the case for fairer digital design — and gives regulators the evidence they need.
+              Document a manipulative design you&apos;ve encountered. Every submission strengthens the evidence base for regulators, researchers, and the case for fairer digital standards.
             </p>
           </div>
         </section>
