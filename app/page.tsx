@@ -216,8 +216,8 @@ function Problem() {
       body: "Most teams rely on ad-hoc reviews, designer intuition, or waiting for complaints. That's reactive, inconsistent, and indefensible when a regulator comes knocking.",
     },
     {
-      title: 'No Tool Exists For This',
-      body: 'Accessibility scanners catch WCAG issues. Cookie consent tools handle banners. But nobody systematically detects the broader category of manipulative UX — until now.',
+      title: 'Generic Tools Leave Gaps',
+      body: 'Accessibility scanners flag WCAG issues. Consent tools handle cookie banners. Neither systematically detects the full dark pattern taxonomy — or maps findings to Australian law, the Unfair Trading Practices Bill, and the specific provisions that create regulatory liability.',
     },
   ]
 
@@ -268,7 +268,7 @@ function HowItWorks() {
       num: '03',
       label: 'Fix',
       title: 'Prioritise and remediate.',
-      body: 'Actionable remediation guidance for each issue, prioritised by regulatory risk. Export compliance-ready reports your legal team can put in front of an auditor.',
+      body: 'Each finding comes with risk-prioritised remediation guidance and the specific regulations it may violate. Export a compliance-ready audit record — dated evidence with finding provenance your legal team can put in front of a regulator or auditor.',
     },
   ]
 
@@ -354,8 +354,8 @@ const PERSONAS = [
   {
     tab: 'Compliance & Legal',
     headline: 'Defensible evidence, on demand.',
-    body: 'Regulators want proof you took reasonable steps. ClearSign provides dated scan records, regulatory mapping, and remediation trails you can put in front of an auditor.',
-    bullets: ['Mapped to ACL, Privacy Act, GDPR, DSA, and FTC', 'PDF reports with finding provenance', 'Continuous scan history'],
+    body: 'Regulators want proof you took reasonable steps. ClearSign provides dated scan records, finding provenance, and per-finding regulatory mapping — evidence you can put in front of the ACCC, OAIC, or an auditor.',
+    bullets: ['Mapped to ACL, Privacy Act, GDPR, DSA, and FTC', 'Timestamped scan records with finding provenance', 'Risk-prioritised remediation trails'],
   },
   {
     tab: 'Founders & Execs',
@@ -663,8 +663,8 @@ function RegulatoryContext() {
 // ─── Stats ────────────────────────────────────────────────────────────────────
 function Stats() {
   const stats = [
-    { value: '$345M+', label: 'Largest dark pattern fine', sub: 'TikTok, EU Digital Services Act' },
-    { value: '68', label: 'Known dark pattern types', sub: 'Across peer-reviewed taxonomies' },
+    { value: '97%', label: 'of websites contain violations', sub: 'Source: European Commission digital products review' },
+    { value: '$520M+', label: 'Largest dark pattern fine', sub: 'Epic Games / FTC settlement, Fortnite (2023)' },
     { value: '6+', label: 'Active jurisdictions', sub: 'Australia leading, with EU and US actively enforcing' },
   ]
 
